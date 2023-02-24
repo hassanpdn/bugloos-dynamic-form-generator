@@ -1,16 +1,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import FormBuilder from '@/pages/FormBuilder.vue'
 
 export default defineComponent({
-      components: {
-            FormBuilder
-      }
+      
 })
 </script>
 
 <template>
-  <FormBuilder />
 </template>
 
 <style scoped>
