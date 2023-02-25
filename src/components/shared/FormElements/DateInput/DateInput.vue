@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
+      <div>Date Input</div>
 </template>
 
 <style scoped>

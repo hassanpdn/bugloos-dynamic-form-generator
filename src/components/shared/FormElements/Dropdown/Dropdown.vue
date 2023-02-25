@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
+      <div>Dropdown</div>
 </template>
 
 <style scoped>

@@ -1,15 +1,17 @@
 <template>
       <div>
-            123456
+            <FormBuilder/>
       </div>
 </template>
 
-<script>
+<script lang="ts">
 
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue';
+import FormBuilder from '@/components/features/FormBuilder/FormBuilder.vue';
+
 export default defineComponent({
       components: {
-            
+            FormBuilder
       }
 })
       

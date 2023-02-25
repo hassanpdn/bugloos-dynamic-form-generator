@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
+      <div>Simple Input</div>
 </template>
 
 <style scoped>

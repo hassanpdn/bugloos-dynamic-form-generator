@@ -7,6 +7,7 @@ export default defineComponent({
 </script>
 
 <template>
+      <div>Radio</div>
 </template>
 
 <style scoped>
