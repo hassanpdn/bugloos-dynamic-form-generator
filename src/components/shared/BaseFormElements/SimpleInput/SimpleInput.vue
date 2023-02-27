@@ -1,3 +1,7 @@
+<template>
+      <input :value="modelValue" @input="$emit('update:modelValue', handleInputChange($event))" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" :placeholder="placeholder" :required="isRequired">
+</template>
+
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
@@ -10,11 +14,16 @@ export default defineComponent({
             isRequired: {
                   type: Boolean as PropType<boolean>,
                   default: ''
+            },
+            modelValue : {
+                  type: String as PropType<string>,
+                  default: ''
+            }
+      },
+      methods: {
+            handleInputChange(event: Event) {
+                  return (event.target as HTMLInputElement).value
             }
       }
 })
 </script>
-
-<template>
-      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" :placeholder="placeholder" :required="isRequired">
-</template>
