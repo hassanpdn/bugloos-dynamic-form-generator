@@ -1,13 +1,18 @@
 <template>
-      <div class="main-content h-screen w-full p-10 bg-red-100">
-            {{ currentComponent }}
+      <div class="main-content h-screen w-full p-16">
+            <h1 class="font-bold text-2xl mb-2">{{ currentComponent }}</h1>
+            <component :is="currentComponent"></component>
       </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, defineAsyncComponent } from 'vue'
 
 export default defineComponent({
+      components: {
+            Forms: defineAsyncComponent(() => import('@/components/features/FormLists/index.vue')),
+            Create: defineAsyncComponent(() => import('@/components/features/FormBuilder/index.vue'))
+      },
       data(){
             return {
                   currentComponent: 'Forms',

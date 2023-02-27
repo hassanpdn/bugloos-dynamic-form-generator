@@ -14,7 +14,7 @@ export default defineComponent({
 <template>
       <div class="flex w-full h-screen overflow-hidden">
             <Sidebar />
-            <Menu/>
+            <Menu />
       </div>
 </template>
 

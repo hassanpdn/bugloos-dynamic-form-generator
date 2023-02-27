@@ -1,10 +1,10 @@
 <template>
-      <div class="sidebar fixed h-screen flex flex-col justify-between items-center" :class="computedClass">
+      <div class="sidebar fixed h-screen flex flex-col justify-between items-center z-40" :class="computedClass">
             <p class="font-bold mt-5">Dynamic Form Generator</p>
             <Menu/>
             <img class="w-2/6 mb-5" src="https://bugloos.nl/wp-content/uploads/Bugloos-Logo.svg" alt="open">
       </div>
-      <button class="fixed left-0 top-0" @click="setSidebarState">
+      <button class="fixed left-0 top-0 z-50" @click="setSidebarState">
             <img width="40" height="40" v-if="isOpen" class="m-4" src="@/assets/images/icons/svg/open.svg" alt="open">
             <img width="40" height="40" v-else class="m-4" src="@/assets/images/icons/svg/close.svg" alt="close">
       </button>

@@ -19,7 +19,7 @@
                         isOpen: true as Boolean,
                         menuItems: [
                               { title: 'Forms', isActive: false },
-                              { title: 'Create Form', isActive: false }
+                              { title: 'Create', isActive: false }
                         ] as MenuItems[],
                         currentItem: 'Forms'
                   }
