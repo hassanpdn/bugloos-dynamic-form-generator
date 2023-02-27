@@ -28,6 +28,7 @@
                   setCurrentItem(item: string) : void{
                         this.currentItem = item
                         this.emitter.emit('setActiveMenu', item)
+                        this.emitter.emit('closeMenu')
                   }
             }
       })

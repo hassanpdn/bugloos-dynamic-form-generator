@@ -1,8 +1,8 @@
 <template>
       <div>
-            <select :id="label" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-none block w-full p-2.5">
+            <select :value="modelValue" @input="$emit('input', $event)" :id="label" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-none block w-full p-2.5">
                   <option disabled selected>{{ label }}</option>
-                  <option v-for="(option, index) in options" :key="`oprion-${index}`" value="US">
+                  <option v-for="(option, index) in options" :key="`oprion-${index}`" :value="option">
                         {{ option }}
                   </option>
             </select>
@@ -25,6 +25,15 @@
                   description: {
                         type: String as PropType<string>,
                         default: ''
+                  },
+                  modelValue: {
+                        type: String as PropType<string>,
+                        default: ''
+                  }
+            },
+            methods: {
+                  onSelect(event: Event){
+                        this.$emit('input', (event.target as HTMLSelectElement).value)
                   }
             }
       })

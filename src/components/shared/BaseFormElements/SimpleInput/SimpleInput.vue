@@ -22,7 +22,7 @@ export default defineComponent({
       },
       methods: {
             handleInputChange(event: Event) {
-                  return (event.target as HTMLInputElement).value
+                  this.$emit('input', (event.target as HTMLInputElement).value)
             }
       }
 })

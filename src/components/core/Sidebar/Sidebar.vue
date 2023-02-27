@@ -35,6 +35,9 @@
                   computedClass() : string {
                         return this.isOpen ? 'opened-sidebar' : 'closed-sidebar';
                   }
+            },
+            mounted(){
+                  this.emitter.on('closeMenu', this.closeMenu)
             }
       })
 </script>
