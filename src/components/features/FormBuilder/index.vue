@@ -34,20 +34,20 @@ export default defineComponent({
                   form: {
                         title: '',
                         role: '',
-                        allowedActions: [] as object[]
+                        allowedActions: [] as object[],
+                        fields: [] as object[]
                   },
                   openFormModal: false
             }
       },
       methods: {
-            addTag (newTag: any) {
-                  const tag: { name: string, action: string } = {
-                        name: newTag,
-                        action: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-                  }
-                  this.actions.push(tag)
-                  this.form.allowedActions.push(tag)
+            addField(field: []){
+                  this.form.fields.push(field);
+                  console.log(this.form.fields)
             }
+      },
+      mounted(){
+            this.emitter.on('addFormFields', this.addField)
       }
 
 })

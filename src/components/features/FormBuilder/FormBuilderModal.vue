@@ -1,17 +1,20 @@
 <template>
       <modal>
-            <form class="flex flex-col justify-center" @submit.prevent="submitForm" action="">
-                  <p class="text-lg font-bold mb-3 text-center">Add new field to form</p>
-                  <select-input class="mb-3" v-model="fieldProperties.selectedComponent" label="Field Type" :options="componentNames"/>
-                  <select-input v-show="fieldProperties.selectedComponent === 'NumberInput'" class="mb-3" v-model="fieldProperties.format" label="Format" :options="formats"/>
-                  <text-input type="text" validation="Enter placeholder" class="mb-3" label="Placeholder" placeholder="Enter placeholder..." v-model="fieldProperties.placeholder"/>
-                  <select-input class="mb-3" v-model="fieldProperties.selectedComponent" label="Validation" :options="validations"/>
-                  <description class="mb-3" label="Descriptions" placeholder="Enter description..." v-model="fieldProperties.description" :maxLength="200"/>
-                  <check-box class="mb-3" label="Is required?" v-model="fieldProperties.isRequired" />
+            <form class="flex flex-col justify-center">
+                  <p class="text-lg font-bold mb-2 text-center">Add new field to form</p>
+                  <select-input class="mb-2" v-model="fieldProperties.selectedComponent" label="Field Type" :options="componentNames"/>
+                  <text-input type="text" class="mb-2" label="Label" placeholder="Enter label..." v-model="fieldProperties.label"/>
+                  <select-input v-show="fieldProperties.selectedComponent === 'NumberInput'" class="mb-2" v-model="fieldProperties.format" label="Format" :options="formats"/>
+                  <text-input type="text" class="mb-2" label="Placeholder" placeholder="Enter placeholder..." v-model="fieldProperties.placeholder"/>
+                  <select-input v-show="fieldProperties.selectedComponent === 'TextInput'" class="mb-2" v-model="fieldProperties.validation" label="Validation" :options="validations"/>
+                  <description class="mb-2" label="Descriptions" placeholder="Enter description..." v-model="fieldProperties.description" :maxLength="200"/>
+                  <select-input class="mb-2" v-model="fieldProperties.selectedComponent" label="Form Access Level" :options="roles"/>
+
+                  <check-box class="mb-2" label="Is required?" v-model="fieldProperties.isRequired" />
 
                   <div class="actions flex justify-center">
-                        <Button @click="submitForm" bgColor="green" textColor="black" class="self-center font-bold" text="Submit Form"/>
-                        <Button @click="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Cancel"/>
+                        <btn @click="submitForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add field"/>
+                        <btn @click="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Cancel"/>
                   </div>
             </form>
             <span v-if="formSubmitted">{{ fieldProperties }}</span>
@@ -25,11 +28,11 @@
       import TextInput from '@/components/shared/BaseFormElements/TextInput/TextInput.vue';
       import Description from '@/components/shared/BaseFormElements/Textarea/Textarea.vue';
       import CheckBox from '@/components/shared/BaseFormElements/CheckBoxInput/CheckBoxInput.vue';
-      import Button from '@/components/shared/BaseButton/Button.vue';
+      import Btn from '@/components/shared/BaseButton/Button.vue';
 
       export default defineComponent({
             name: 'form-builder-modal',
-            components: { Modal, SelectInput, CheckBox, Button, TextInput, Description },
+            components: { Modal, SelectInput, CheckBox, Btn, TextInput, Description },
             data(){
                   return {
                         componentNames: [
@@ -37,7 +40,8 @@
                               { name: 'Date', value: 'DateInput' },
                               { name: 'Number', value: 'NumberInput' },
                               { name: 'Radio', value: 'RadioInput' },
-                              { name: 'Textarea', value: 'Textarea' },     
+                              { name: 'Description', value: 'Textarea' },     
+                              { name: 'Text', value: 'TextInput' },     
                         ],
                         validations: [
                               { name: 'Email', value: '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/' },
@@ -47,9 +51,10 @@
                               { name: 'Text and number', value: '/^[A-Za-z0-9]*$/' }
                         ],
                         formats: [
-                              { name: 'Dollars', value: "en-US"},
-                              { name: 'Rupees', value: "en-IN"},
-                              { name: 'Euros', value: "de-DE"}
+                              { name: 'Price', value: "price"},
+                              { name: 'Phone', value: "phone"},
+                              { name: 'Weight', value: "weight"},
+                              { name: 'Height', value: "height"}
                         ],
                         fieldProperties: {
                               selectedComponent: 'Select Form Element',
@@ -57,14 +62,19 @@
                               placeholder: '',
                               description: '',
                               validation: '',
-                              format: ''
+                              format: '',
+                              label: ''
                         },
+                        roles : [
+                              { name: 'Admin', value: 'admin' },
+                              { name: 'Guest', value: 'guest' }
+                        ],
                         formSubmitted: false
                   }
             },
             methods: {
                   submitForm(){
-                        this.formSubmitted = !this.formSubmitted
+                        this.emitter.emit('addFormFields', this.fieldProperties)
                   }
             }
       })

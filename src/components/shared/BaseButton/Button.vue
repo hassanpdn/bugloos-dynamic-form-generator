@@ -8,8 +8,7 @@
             transition-shadows 
             duration-500
             ease-linear"
-            :class="`${expanded ? 'w-full' : ''} hover:bg-${bgColor}-50 bg-${bgColor}-200 text-${textColor}`"
-            @click="handleClick"
+            :class="`${expanded ? 'w-full' : ''} hover:bg-${bgColor}-50 bg-${bgColor}-300 text-${textColor}`"
       >
             {{ text }}
       </button>
@@ -36,11 +35,6 @@
                         type: String as PropType<string>,
                         default: "button"
                   },
-            },
-            methods: {
-                  handleClick(){
-                        this.$emit('click')
-                  }
             }
       })
 </script>

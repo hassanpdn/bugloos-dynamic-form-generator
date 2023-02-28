@@ -4,6 +4,7 @@
             <textarea
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   :placeholder="placeholder"
+                  style="resize: none;"
                   :value="modelValue"
                   @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
                   v-bind="$attrs"
