@@ -19,7 +19,7 @@
             components: { Menu },
             data(){
                   return {
-                        isOpen: true as Boolean
+                        isOpen: false as Boolean
                   }
             },
             methods: {

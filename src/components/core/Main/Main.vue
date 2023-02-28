@@ -15,7 +15,7 @@ export default defineComponent({
       },
       data(){
             return {
-                  currentComponent: 'Forms',
+                  currentComponent: 'Create',
                   isSidebarOpened: true
             }
       },

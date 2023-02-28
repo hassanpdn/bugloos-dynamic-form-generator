@@ -1,5 +1,15 @@
 <template>
-      <input :value="modelValue" @input="$emit('update:modelValue', handleInputChange($event))" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" :placeholder="placeholder" :required="isRequired">
+      <div class="input-wrapper">
+            <label class="text-sm" :for="placeholder">{{ label }}</label>
+            <input
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                  :placeholder="placeholder"
+                  :value="modelValue"
+                  @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+                  v-bind="$attrs"
+                  :id="placeholder"
+            />
+      </div>
 </template>
 
 <script lang="ts">
@@ -7,22 +17,16 @@ import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
       props: {
+            label: {
+                  type: String
+            },
             placeholder: {
-                  type: String as PropType<string>,
-                  default: ''
+                  type: String
             },
-            isRequired: {
-                  type: Boolean as PropType<boolean>,
-                  default: ''
-            },
-            modelValue : {
-                  type: String as PropType<string>,
-                  default: ''
-            }
-      },
-      methods: {
-            handleInputChange(event: Event) {
-                  this.$emit('input', (event.target as HTMLInputElement).value)
+            modelValue: {
+                  type: [String, Number] as PropType<string | number>,
+                  default: "",
+                  required: true
             }
       }
 })

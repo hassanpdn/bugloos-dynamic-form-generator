@@ -16,12 +16,12 @@
             name: 'sidebar-menu',
             data(){
                   return {
-                        isOpen: true as Boolean,
+                        isOpen: false as Boolean,
                         menuItems: [
                               { title: 'Forms', isActive: false },
                               { title: 'Create', isActive: false }
                         ] as MenuItems[],
-                        currentItem: 'Forms'
+                        currentItem: 'Create'
                   }
             },
             methods: {

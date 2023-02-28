@@ -7,7 +7,7 @@
 import { defineComponent, defineAsyncComponent, PropType } from 'vue';
 
 export default defineComponent({
-      props:{
+      props: {
             selectedComponentName : {
                   type: String as PropType<string>,
                   default: ''
@@ -17,7 +17,6 @@ export default defineComponent({
             Checkbox: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/CheckBoxInput/CheckBoxInput.vue')),
             NumberInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/NumberInput/NumberInput.vue')),
             DateInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/DateInput/DateInput.vue')),
-            DropDown: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/DropDown/DropDown.vue')),
             RadioInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/RadioInput/RadioInput.vue')),
             SimpleInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/SimpleInput/SimpleInput.vue')),
             Textarea: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/Textarea/Textarea.vue'))

@@ -1,43 +1,37 @@
 <template>
       <div>
-            <select :value="modelValue" @input="$emit('input', $event)" :id="label" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-none block w-full p-2.5">
-                  <option disabled selected>{{ label }}</option>
-                  <option v-for="(option, index) in options" :key="`oprion-${index}`" :value="option">
-                        {{ option }}
-                  </option>
+            <label class="text-sm" for="select">{{ label }}</label>
+            <select id="select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" :value="modelValue" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
+                  <option :value="modelValue" disabled selected>Select...</option>
+                  <template v-for="(option, optionIdx) in options" :key="optionIdx" >
+                        <option :value="option.value" v-text="option.name"></option>
+                  </template>
             </select>
       </div>
 </template>
 
 <script lang="ts">
-      import { defineComponent, PropType } from 'vue';
-      export default defineComponent({
-            name: 'select-component',
-            props: {
-                  options: {
-                        type: Object as PropType<object>,
-                        default: {}
-                  },
-                  label: {
-                        type: String as PropType<string>,
-                        default: ''
-                  },
-                  description: {
-                        type: String as PropType<string>,
-                        default: ''
-                  },
-                  modelValue: {
-                        type: String as PropType<string>,
-                        default: ''
-                  }
-            },
-            methods: {
-                  onSelect(event: Event){
-                        this.$emit('input', (event.target as HTMLSelectElement).value)
-                  }
-            }
-      })
-</script>
+import { defineComponent, PropType } from 'vue';
 
-<style>
-</style>
+interface SelectOption {
+      name: string;
+      value: string;
+}
+
+export default defineComponent({
+      props: {
+            options: { 
+                  type: Array as PropType<SelectOption[]>, 
+                  required: true 
+            },
+            modelValue: {
+                  type: [String, Number] as PropType<string | number>,
+                  default: "",
+                  required: true
+            },
+            label: {
+                  type: String
+            }
+      }
+})
+</script>

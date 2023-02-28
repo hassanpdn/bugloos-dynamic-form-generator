@@ -1,8 +1,7 @@
 <template>
       <modal>
             <h1 class="text-lg font-bold mb-3">Add new field to form</h1>
-            <Select v-model="selectedComponent" description="Select Form Element" label="Select Form Element" :options="options" />
-            {{ selectedComponent }}
+            <Select v-model="selectedComponent" :options="options" :value="selectedComponent" />
       </modal>
 </template>
 
@@ -16,7 +15,11 @@
             components: { Modal, Select },
             data(){
                   return {
-                        options: ['Checkbox', 'Text', 'Number', 'Date', 'Date Range', 'Radio', 'Textarea', 'Select'],
+                        // 'Checkbox', 'Text', 'Number', 'Date', 'Date Range', 'Radio', 'Textarea', 'Select'
+                        options: [
+                              { name: 'Checkbox', value: 'CheckBoxInput' },
+                              { name: 'Date', value: 'DateInput' },
+                        ],
                         selectedComponent: 'Select Form Element'
                   }
             },
