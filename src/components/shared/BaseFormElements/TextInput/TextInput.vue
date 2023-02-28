@@ -8,6 +8,7 @@
                   @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
                   v-bind="$attrs"
                   :id="placeholder"
+                  :type="type"
             />
       </div>
 </template>
@@ -18,10 +19,14 @@ import { defineComponent, PropType } from 'vue';
 export default defineComponent({
       props: {
             label: {
-                  type: String
+                  type: String as PropType<string>,
             },
             placeholder: {
-                  type: String
+                  type: String as PropType<string>,
+            },
+            type: {
+                  type: String as PropType<string>,
+                  default: 'text'
             },
             modelValue: {
                   type: [String, Number] as PropType<string | number>,
