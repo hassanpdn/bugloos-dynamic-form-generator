@@ -43,7 +43,6 @@ export default defineComponent({
       methods: {
             addField(field: []){
                   this.form.fields.push(field);
-                  console.log(this.form.fields)
             }
       },
       mounted(){
