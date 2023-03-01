@@ -3,9 +3,9 @@
             <form class="flex flex-col justify-center">
                   <p class="text-lg font-bold mb-2 text-center">Add new field to form</p>
                   <select-input class="mb-2" v-model="fieldProperties.selectedComponent" label="Field Type" :options="componentNames"/>
-                  <text-input required isEmail isPhoneNumber type="text" label="Label" placeholder="Enter label..." v-model="fieldProperties.label"/>
+                  <text-input ref="label" isRequired isEmail type="text" label="Label" placeholder="Enter label..." v-model="fieldProperties.label"/>
                   <select-input v-show="fieldProperties.selectedComponent === 'NumberInput'" class="mb-2" v-model="fieldProperties.format" label="Format" :options="formats"/>
-                  <text-input required isEmail type="text" label="Placeholder" placeholder="Enter placeholder..." v-model="fieldProperties.placeholder"/>
+                  <text-input ref="placeholder" isPhoneNumber isRequired type="number" label="Placeholder" placeholder="Enter placeholder..." v-model="fieldProperties.placeholder"/>
                   <select-input v-show="fieldProperties.selectedComponent === 'TextInput'" class="mb-2" v-model="fieldProperties.validation" label="Validation" :options="validations"/>
                   <description class="mb-2" label="Descriptions" placeholder="Enter description..." v-model="fieldProperties.description" :maxLength="200"/>
                   <select-input class="mb-2" v-model="fieldProperties.selectedComponent" label="Form Access Level" :options="roles"/>
@@ -13,8 +13,8 @@
                   <check-box class="mb-2" label="Is required?" v-model="fieldProperties.isRequired" />
 
                   <div class="actions flex justify-center">
-                        <btn @click="submitForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add field"/>
-                        <btn @click="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Cancel"/>
+                        <btn @click="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add field"/>
+                        <btn @click.prevent="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Cancel"/>
                   </div>
             </form>
       </modal>
@@ -68,11 +68,28 @@
                               { name: 'Number', value: 'number' },
                               { name: 'Text', value: 'text' },
                               { name: 'Text and number', value: 'textAndNumber' }
-                        ]
+                        ],
+                        hasError: false
                   }
             },
             methods: {
+                  validateForm(e: Event){
+                        e.preventDefault()
+                        this.checkForErrors()
+                  },
+                  checkForErrors(){
+                        const refs = this.$refs;
+                        const errors : boolean[] = [];
+                        Object.keys(refs).forEach( key => {
+                              const ref = refs[key] as any
+                              ref.setValidators();
+                              errors.push(ref.hasError)
+                        })
+                        this.hasError = errors.some(i => i);
+                        this.submitForm()
+                  },
                   submitForm(){
+                        if( this.hasError ) return
                         this.emitter.emit('addFormFields', this.fieldProperties)
                   }
             }

@@ -2,6 +2,7 @@
       <div class="input-wrapper mb-2">
             <label class="text-sm" :for="placeholder">{{ label }}</label>
             <input
+                  autocomplete="off"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                   :placeholder="placeholder"
                   :value="modelValue"
@@ -9,9 +10,10 @@
                   v-bind="$attrs"
                   :id="placeholder"
                   :type="type"
-                  @blur="validateInput"
+                  @keyup="setValidators"
+                  @blur="setValidators"
             />
-            <span v-for="(error, index) in errors" :key="`error-${index}`" class="text-sm text-red-400">- Please enter a {{ error }}</span>
+            <p v-for="(error, index) in errors" :key="`error-${index}`" class="text-sm text-red-400">- Please enter a {{ error }}</p>
       </div>
 </template>
 
@@ -28,11 +30,11 @@ interface Validations {
 export default defineComponent({
       data(){
             return {
-                  showAlert: false,
                   errors: [] as string[],
                   validations: validations as Validations[],
                   validationMetrics: validationMetrics as Validations[],
-                  currentValidations: [] as string[]
+                  currentValidations: [] as string[],
+                  hasError: false
             }
       },   
       watch:{
@@ -52,11 +54,11 @@ export default defineComponent({
                   default: 'text'
             },
             modelValue: {
-                  type: [String, Number] as PropType<string | number>,
+                  type: String as PropType<string>,
                   default: "",
                   required: true
             },
-            required: {
+            isRequired: {
                   type: Boolean as PropType<boolean>,
                   default: false
             },
@@ -91,22 +93,23 @@ export default defineComponent({
                   this.validateInput()
             },
             validateInput() {
+                  this.errors = [];
+                  this.hasError = false;
                   const validators : string[] = this.currentValidations;
-                  console.log(validators)
-                  // (this.required && this.modelValue === '') ? (this.errors.push('value')) : this.errors.splice(this.errors.indexOf('value'));
-                  // /** @ValidateEmail **/
-                  
-                  
-                  // if(this.required) validationMetrics.push('Required');
-                  // if(this.isEmail) validationMetrics.push('Email');
-                  // if(this.isPhoneNumber) validationMetrics.push('Phone');
-                  // if(this.isNumber) validationMetrics.push('Number');
-                  // if(this.isText) validationMetrics.push('Text');
-                  // if(this.isTextAndNumber) validationMetrics.push('Text and number');
-                  // (this.isEmail && this.regexTester(this.modelValue , this.validations.find(({ name }) => name === "Email")!.value))
-                  // console.log(this.regexTester(this.validations.find(({ name }) => name === "Email")!.value, this.modelValue))
+                  // if(this.required && this.modelValue === '') {
+                  //       this.errors.push('value')
+                  //       this.hasError = true;
+                  // }
+                  validators.forEach(v => {
+                        console.log(v)
+                        if(!this.regexTester(this.validations.find(({ name }) => name === v)!.value, this.modelValue)) {
+                              this.errors.push(`valid ${ v === 'Required' ? 'value': v }`)
+                              this.hasError = true;
+                        }
+                  });
             },
-            regexTester(regex: any, value: any) {
+            regexTester(regex: any, value: string): boolean {
+                  if(!value) return false
                   const reg = new RegExp(regex);
                   return reg.test(value)
             }

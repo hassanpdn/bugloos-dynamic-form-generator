@@ -6,6 +6,7 @@
                   <Button @click="openFormModal = true" bgColor="green" textColor="black" class="self-center font-bold mt-5" text="Add field"/>
 
             </div>
+            {{ form.fields }}
             <Modal @close="openFormModal = false" v-show="openFormModal"/>
       </div>
 </template>
@@ -42,6 +43,7 @@ export default defineComponent({
       },
       methods: {
             addField(field: []){
+                  console.log(field)
                   this.form.fields.push(field);
             }
       },
