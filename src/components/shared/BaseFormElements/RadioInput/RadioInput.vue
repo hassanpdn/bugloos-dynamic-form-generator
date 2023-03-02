@@ -1,60 +1,34 @@
-<script lang="ts">
-      import { defineComponent } from 'vue'
-      export default defineComponent({
-            props: {
-                  name: {
-                        type: String,
-                        required: false,
-                  },
-                  className: {
-                        type: String,
-                        required: false,
-                  },
-                  id: {
-                        type: String,
-                        required: false,
-                  },
-                  value: {
-                        type: String,
-                        required: false,
-                  },
-                  required: {
-                        type: Boolean,
-                        required: false,
-                        default: false,
-                  },
-                  checked: {
-                        type: Boolean,
-                        required: false,
-                        default: false,
-                  },
-                  label: {
-                        type: String,
-                        required: true,
-                  },
-                  inverted: {
-                        type: Boolean,
-                        required: false,
-                        default: false,
-                  },
-            }
-      })
-</script>
-
 <template>
-      <div class="custom-radio" :class="{ inverted: inverted }">
-            <input
-                  type="radio"
-                  :name="name"
-                  :class="className"
-                  :id="id"
-                  :checked="checked"
-                  :value="value"
-                  :required="required"
-                  @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-            />
-            <label :for="id">{{ label }} </label>
+      <div class="flex flex-col">
+            <label class="text-sm" :for="details?.label">{{ details?.label}}</label>
+            <div class="flex">
+                  <label :id="details?.label" v-for="(option, index) in details?.radioOptions" :key="`radio-${index}`" class="inline-flex cursor-pointer items-center mr-4">
+                        <input
+                              type="radio"
+                              :name="details?.label"
+                              :value="option"
+                              @input="handleInput"
+                              class="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
+                        >
+                        <span class="ml-2 text-gray-700">{{ option }}</span>
+                  </label>
+            </div>
       </div>
-</template>
-
-<style scoped></style>
+    </template>
+    
+    <script lang="ts">
+    import { defineComponent, PropType } from 'vue';
+    
+    export default defineComponent({
+            props: {
+                  details:{
+                        type: Object as PropType<{[key: string]: string}>
+                  }
+            },
+            methods: {
+                  handleInput(e: Event) {
+                        this.$emit('update:modelValue', (e.target as HTMLInputElement).value)
+                  }
+            },
+      });
+    </script>

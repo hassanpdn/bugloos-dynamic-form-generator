@@ -1,6 +1,6 @@
 <template>
       <modal>
-            <form class="flex flex-col justify-center">
+            <!-- <form class="flex flex-col justify-center"> -->
                   <p class="text-lg font-bold mb-2 text-center">Add new field to form</p>
                   
                   <select-input class="mb-2" @input="handleComponentSelection" v-model="fieldProperties.selectedComponent" label="Field Type" :options="componentNames"/>
@@ -13,8 +13,8 @@
                         </p>
                   </div>
                   <div v-show="isComponent(['RadioInput'])" class="actions flex justify-start text-sm text-white font-bold my-2">
-                        <!-- <btn :disabled="showRadioFields && !radioOption" @click.prevent="!showRadioFields ? showRadioFields = true : addRadioOption()" bgColor="blue" text="Add option"/> -->
-                        <!-- <btn v-show="showRadioFields" @click.prevent="showRadioFields = !showRadioFields" class="ml-2" bgColor="red" text="Close"/> -->
+                        <btn :disabled="showRadioFields && !radioOption" @click.prevent="!showRadioFields ? showRadioFields = true : addRadioOption()" bgColor="blue" text="Add option"/>
+                        <btn v-show="showRadioFields" @click.prevent="showRadioFields = !showRadioFields" class="ml-2" bgColor="red" text="Close"/>
                   </div>
                   
                   <text-input ref="label" :details="{isRequired: true, label : 'Label', placeholder: 'Enter label...', type: 'text' }" v-model="fieldProperties.label"/>
@@ -36,7 +36,7 @@
                         <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add"/>
                         <btn v-on:click.prevent="resetForm" @click.prevent="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Close"/>
                   </div>
-            </form>
+            <!-- </form> -->
             <alert v-if="showAlert" :message="alert.message" :type="alert.type" />
       </modal>
 </template>

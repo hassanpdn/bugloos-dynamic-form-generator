@@ -9,7 +9,7 @@
                   </div>
                   
                   <!-- ## Enter new fields here using  FieldGenerator component-->
-                  <FieldGenerator v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`" />
+                  <FieldGenerator @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`" />
             </div>
             <Modal @close="openFormModal = false" v-show="openFormModal"/>
       </div>
@@ -47,6 +47,11 @@ export default defineComponent({
             }
       },
       methods: {
+            handleValue(e: Event | any, prop: { [key: string]: string}){
+                  let currentItem = this.form.fields.find(item => item.label === prop);
+                  currentItem['value'] = e.target.value
+                  return
+            },
             addField(field: []){
                   this.form.fields.push(field);
                   this.openFormModal = false;
