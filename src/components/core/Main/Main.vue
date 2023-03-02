@@ -1,6 +1,6 @@
 <template>
       <div class="main-content h-screen w-full p-16">
-            <h1 class="font-bold text-2xl mb-2">{{ currentComponent }}</h1>
+            <h1 class="font-bold text-2xl mb-2">{{ currentComponent }} {{ formName }}</h1>
             <component :is="currentComponent"></component>
       </div>
 </template>
@@ -16,6 +16,7 @@ export default defineComponent({
       data(){
             return {
                   currentComponent: 'Create',
+                  formName: '',
                   isSidebarOpened: true
             }
       },
@@ -25,11 +26,15 @@ export default defineComponent({
             },
             setSidebarState(isSidebarOpened: boolean): void{
                   this.isSidebarOpened = isSidebarOpened
-            }
+            },
+            setFormName(name: string): void{
+                  this.formName = name
+            },
       },
       mounted(){
             this.emitter.on('setActiveMenu', this.setActiveMenu)
             this.emitter.on('setSidebarState', this.setSidebarState)
+            this.emitter.on('setFormName', this.setFormName)
       }
 })
 </script>

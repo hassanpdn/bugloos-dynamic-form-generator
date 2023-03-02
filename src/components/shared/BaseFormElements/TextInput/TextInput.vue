@@ -1,15 +1,17 @@
 <template>
       <div class="input-wrapper mb-2">
-            <label class="text-sm" :for="placeholder">{{ label }}</label>
+            <label class="text-sm" :for="details?.placeholder">{{ details?.label }}</label>
             <input
                   autocomplete="off"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-                  :placeholder="placeholder"
+                  :class="{'bg-slate-50': details?.disabled}"
+                  :placeholder="details?.placeholder"
                   :value="modelValue"
                   @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
                   v-bind="$attrs"
-                  :id="placeholder"
-                  :type="type"
+                  :id="details?.placeholder"
+                  :type="details?.type"
+                  :disabled="details?.disabled"
                   @keyup="setValidators"
                   @blur="setValidators"
             />
@@ -43,52 +45,31 @@ export default defineComponent({
             }
       },
       props: {
-            label: {
-                  type: String as PropType<string>,
-            },
-            placeholder: {
-                  type: String as PropType<string>,
-            },
-            type: {
-                  type: String as PropType<string>,
-                  default: 'text'
+            details: {
+                  type: Object as PropType<any>
             },
             modelValue: {
                   type: String as PropType<string>,
                   default: "",
                   required: true
             },
-            isRequired: {
-                  type: Boolean as PropType<boolean>,
-                  default: false
+            description: {
+                  type: String as PropType<string>,
+                  default: ''
             },
-            isEmail: {
-                  type: Boolean as PropType<boolean>,
-                  default: false
-            },
-            isPhoneNumber: {
-                  type: Boolean as PropType<boolean>,
-                  default: false
-            },
-            isNumber: {
-                  type: Boolean as PropType<boolean>,
-                  default: false
-            },
-            isText: {
-                  type: Boolean as PropType<boolean>,
-                  default: false
-            },
-            isTextAndNumber: {
-                  type: Boolean as PropType<boolean>,
-                  default: false
-            },
+            validation: {
+                  type: String as PropType<string>,
+                  default: ''
+            }
       },
       methods: {
             setValidators(): void{
                   let self : any = this;
                   this.currentValidations = [];
+
+                  // Set an array of strings where each string indicates a prop which should be validated
                   this.validationMetrics.forEach(i => {
-                        if(self[i.name]) this.currentValidations.push(i.value)
+                        if(self.details[i.name]) this.currentValidations.push(i.value)
                   })
                   this.validateInput()
             },
@@ -96,19 +77,24 @@ export default defineComponent({
                   this.errors = [];
                   this.hasError = false;
                   const validators : string[] = this.currentValidations;
-                  // if(this.required && this.modelValue === '') {
-                  //       this.errors.push('value')
-                  //       this.hasError = true;
-                  // }
+
+                  // Add validations passed by field generator component
+                  const _shoudHaveValidations = ['Required', this.details['validation']];
+                  _shoudHaveValidations.forEach( v => (this.details['validation'] && !validators.includes(v)) && validators.push(v));
+
+                  this.confirmValidation(validators)
+            },
+            confirmValidation(validators: string[]){
                   validators.forEach(v => {
-                        console.log(v)
+                        /** @DynamicInputValidation using a regex from constants and the input value **/ 
                         if(!this.regexTester(this.validations.find(({ name }) => name === v)!.value, this.modelValue)) {
                               this.errors.push(`valid ${ v === 'Required' ? 'value': v }`)
                               this.hasError = true;
                         }
-                  });
+                  })
             },
             regexTester(regex: any, value: string): boolean {
+                  /** If the value is empty return false for @Required fields **/
                   if(!value) return false
                   const reg = new RegExp(regex);
                   return reg.test(value)

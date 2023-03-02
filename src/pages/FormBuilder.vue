@@ -1,7 +1,5 @@
 <template>
-      <div>
-            <FormBuilder/>
-      </div>
+      <FormBuilder/>
 </template>
 
 <script lang="ts">

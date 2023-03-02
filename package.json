@@ -12,6 +12,7 @@
             "coverage": "vitest run --coverage"
       },
       "dependencies": {
+            "@vuepic/vue-datepicker": "^4.1.0",
             "mitt": "^3.0.0",
             "vue": "^3.2.26",
             "vue-multiselect": "^3.0.0-beta.1"

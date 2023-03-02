@@ -1,16 +1,17 @@
 <template>
       <div>
             <label class="text-sm">{{ details?.label }}</label>
-            <VueDatePicker placeholder="Set date..." v-model="date"></VueDatePicker>
+            <VueDatePicker v-model="date" range></VueDatePicker>
       </div>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
+      name: 'date-range-input',
       data(){
             return {
-                  date: ''
+                  date: []
             }
       },
       props: {
@@ -21,8 +22,5 @@ export default defineComponent({
 })
 </script>
 
-<style>
-.dp__input { 
-      @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 pl-8
-}
+<style scoped>
 </style>
