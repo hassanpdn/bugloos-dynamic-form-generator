@@ -1,14 +1,14 @@
 <template>
       <div class="text-area-wrapper">
-            <label class="text-sm" :for="placeholder">{{ label }}</label>
+            <label class="text-sm" :for="details?.placeholder">{{ details?.label }}</label>
             <textarea
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 h-10 resize-none"
-                  :placeholder="placeholder"
+                  :placeholder="details?.placeholder"
                   :value="modelValue"
                   @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
                   v-bind="$attrs"
-                  :id="placeholder"
-                  :maxlength="maxLength"
+                  :id="details?.placeholder"
+                  :maxlength="details?.maxLength"
             >
             </textarea>
       </div>
@@ -19,22 +19,25 @@ import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
       props: {
-            label: {
-                  type: String
-            },
-            placeholder: {
-                  type: String
+            // label: {
+            //       type: String
+            // },
+            // placeholder: {
+            //       type: String
+            // },
+            details: {
+                  type: Object as PropType<any>
             },
             modelValue: {
                   type: [String, Number] as PropType<string | number>,
                   default: "",
                   required: true
             },
-            maxLength: {
-                  type: Number as PropType<number>,
-                  default: 50,
-                  required: true
-            },
+            // maxLength: {
+            //       type: Number as PropType<number>,
+            //       default: 50,
+            //       required: true
+            // },
       }
 })
 </script>

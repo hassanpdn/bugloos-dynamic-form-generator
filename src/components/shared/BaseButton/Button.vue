@@ -8,7 +8,8 @@
             transition-shadows 
             duration-500
             ease-linear"
-            :class="`${expanded ? 'w-full' : ''} hover:bg-${bgColor}-50 bg-${bgColor}-300 text-${textColor}`"
+            :class="`${expanded ? 'w-full' : ''} ${disabled ? 'bg-gray-400' : ''} hover:bg-${bgColor}-50 bg-${bgColor}-300 text-${textColor}`"
+            :disabled="disabled"
       >
             {{ text }}
       </button>
@@ -35,6 +36,10 @@
                         type: String as PropType<string>,
                         default: "button"
                   },
+                  disabled: {
+                        type: Boolean as PropType<boolean>,
+                        default: false
+                  }
             }
       })
 </script>

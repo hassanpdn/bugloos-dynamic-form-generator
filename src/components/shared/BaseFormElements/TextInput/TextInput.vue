@@ -8,12 +8,9 @@
                   :placeholder="details?.placeholder"
                   :value="modelValue"
                   @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-                  v-bind="$attrs"
                   :id="details?.placeholder"
                   :type="details?.type"
                   :disabled="details?.disabled"
-                  @keyup="setValidators"
-                  @blur="setValidators"
             />
             <p v-for="(error, index) in errors" :key="`error-${index}`" class="text-sm text-red-400">- Please enter a {{ error }}</p>
       </div>
