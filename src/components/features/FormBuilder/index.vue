@@ -2,7 +2,7 @@
       <div class="w-full border-dashed border-gray-300 rounded p-10 flex justify-center border-2">
             <div class="w-full justify-between grid grid-cols-3 gap-7">
                   <text-input @input="setFormTitle" :details="{ type:'text', label:'Form Title', placeholder:'Enter form title...', isRequired: true }" v-model="form.title"/>
-                  <select-input v-model="form.role" label="Form Access Level" :options="roles"/>
+                  <select-input v-model="form.role" :details="{label: 'Form Access Level', options: roles, placeholder: 'Select form access level'}"/>
                   <div class="grid grid-cols-2 gap-2 mt-5">
                         <btn @click="openFormModal = true" bgColor="blue" textColor="black" class="self-center font-bold" text="Add Field"/>
                         <btn @click.prevent="submitForm" bgColor="green" textColor="black" class="self-center font-bold" text="Submit"/>

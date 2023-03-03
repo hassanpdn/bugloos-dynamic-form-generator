@@ -10,3 +10,8 @@ export interface TableItemTypes {
 export interface SelectOptionsTypes {
       [index: number]: { name: string ; props:  MenuItems};
 }
+
+export interface IValidations {
+      name: string,
+      value: string
+}

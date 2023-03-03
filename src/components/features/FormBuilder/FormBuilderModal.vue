@@ -1,42 +1,40 @@
 <template>
       <modal>
-            <!-- <form class="flex flex-col justify-center"> -->
-                  <p class="text-lg font-bold mb-2 text-center">Add new field to form</p>
-                  
-                  <select-input class="mb-2" @input="handleComponentSelection" v-model="fieldProperties.selectedComponent" label="Field Type" :options="componentNames"/>
+            <p class="text-lg font-bold mb-2 text-center">Add new field to form</p>
+            
+            <select-input ref="fieldType" class="mb-2" @input="handleComponentSelection" :details="{ isRequired: true, label : 'Field Type', options: componentNames, placeholder: 'Select field type' }" v-model="fieldProperties.selectedComponent"/>
 
-                  <text-input v-if="showRadioFields" ref="radioOptions" :details="{ isRequired: true, label : 'Radio option', placeholder: 'Enter radio option...', type: 'text' }" v-model="radioOption"/>
-                  <div v-if="fieldProperties.radioOptions && showRadioFields">
-                        <p class="relative text-sm p-2 bg-white text-black border-dashed border-2 rounded my-2 inline-block mr-3" v-for="(item, index) in fieldProperties.radioOptions" :key="`option-${index}`">
-                              {{ item }}
-                              <img @click="removeRadioOption(index)" class="absolute top-0 right-0 cursor-pointer -m-2" width="20" height="20" src="@/assets/images/icons/svg/cancel.svg" alt="cancel">
-                        </p>
-                  </div>
-                  <div v-show="isComponent(['RadioInput'])" class="actions flex justify-start text-sm text-white font-bold my-2">
-                        <btn :disabled="showRadioFields && !radioOption" @click.prevent="!showRadioFields ? showRadioFields = true : addRadioOption()" bgColor="blue" text="Add option"/>
-                        <btn v-show="showRadioFields" @click.prevent="showRadioFields = !showRadioFields" class="ml-2" bgColor="red" text="Close"/>
-                  </div>
-                  
-                  <text-input ref="label" :details="{isRequired: true, label : 'Label', placeholder: 'Enter label...', type: 'text' }" v-model="fieldProperties.label"/>
+            <text-input v-if="showRadioFields" ref="radioOptions" :details="{ isRequired: true, label : 'Radio option', placeholder: 'Enter radio option...', type: 'text' }" v-model="radioOption"/>
+            <div v-if="fieldProperties.radioOptions && showRadioFields">
+                  <p class="relative text-sm p-2 bg-white text-black border-dashed border-2 rounded my-2 inline-block mr-3" v-for="(item, index) in fieldProperties.radioOptions" :key="`option-${index}`">
+                        {{ item }}
+                        <img @click="removeRadioOption(index)" class="absolute top-0 right-0 cursor-pointer -m-2" width="20" height="20" src="@/assets/images/icons/svg/cancel.svg" alt="cancel">
+                  </p>
+            </div>
+            <div v-show="isComponent(['RadioInput'])" class="actions flex justify-start text-sm text-white font-bold my-2">
+                  <btn :disabled="showRadioFields && !radioOption" @click.prevent="!showRadioFields ? showRadioFields = true : addRadioOption()" bgColor="blue" text="Add option"/>
+                  <btn v-show="showRadioFields" @click.prevent="showRadioFields = !showRadioFields" class="ml-2" bgColor="red" text="Close"/>
+            </div>
+            
+            <text-input ref="label" :details="{isRequired: true, isPhoneNumber: true, label : 'Label', placeholder: 'Enter label...', type: 'text' }" v-model="fieldProperties.label"/>
 
-                  <select-input v-show="isComponent(['NumberInput'])" class="mb-2" v-model="fieldProperties.format" label="Format" :options="formats"/>
+            <select-input v-show="isComponent(['NumberInput'])" class="mb-2" :details="{ isRequired: true, label : 'Format', options: formats, placeholder: 'Select format' }" v-model="fieldProperties.format"/>
 
-                  <text-input v-if="isComponent(['TextInput', 'DateRangeInput'])" :details="{isRequired: true, label : 'Placeholder', placeholder: 'Enter placeholder...', type: 'text' }" ref="placeholder" v-model="fieldProperties.placeholder"/>
-                  
-                  <select-input v-show="isComponent(['TextInput'])" class="mb-2" v-model="fieldProperties.validation" label="Validation" :options="validations"/>
-                  
-                  <description v-show="isComponent(['TextInput'])" class="mb-2" label="Descriptions" placeholder="Enter description..." v-model="fieldProperties.description" :maxLength="200"/>
-                  <text-input v-if="isComponent(['Textarea'])" :details="{isRequired: true, isNumber: true, label : 'Max length', placeholder: 'Enter max length...', type: 'number' }" ref="maxLength" v-model="fieldProperties.maxLength"/>
-                  
-                  <select-input class="mb-2" v-model="fieldProperties.role" label="Form Access Level" :options="roles"/>
-                  
-                  <check-box class="mb-2" :details="{ label: 'isRequired', isRequired: true }" label="Is required?" v-model="fieldProperties.isRequired" />
+            <text-input v-if="isComponent(['TextInput', 'DateRangeInput'])" :details="{isRequired: true, label : 'Placeholder', placeholder: 'Enter placeholder...', type: 'text' }" ref="placeholder" v-model="fieldProperties.placeholder"/>
+            
+            <select-input v-show="isComponent(['TextInput'])" :details="{ isRequired: true, label : 'Validation', options: validations, placeholder: 'Select validations' }" class="mb-2" v-model="fieldProperties.validation"/>
+            
+            <description v-show="isComponent(['TextInput'])" class="mb-2" label="Descriptions" placeholder="Enter description..." v-model="fieldProperties.description" :maxLength="200"/>
+            <text-input v-if="isComponent(['Textarea'])" :details="{isRequired: true, isNumber: true, label : 'Max length', placeholder: 'Enter max length...', type: 'number' }" ref="maxLength" v-model="fieldProperties.maxLength"/>
+            
+            <select-input class="mb-2" v-model="fieldProperties.role" :details="{ isRequired: true, label : 'Form Access Level', options: roles, placeholder: 'Select access level' }"/>
+            
+            <check-box class="mb-2" :details="{ label: 'isRequired', isRequired: true }" label="Is required?" v-model="fieldProperties.isRequired" />
 
-                  <div class="actions flex justify-center">
-                        <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add"/>
-                        <btn v-on:click.prevent="resetForm" @click.prevent="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Close"/>
-                  </div>
-            <!-- </form> -->
+            <div class="actions flex justify-center">
+                  <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add"/>
+                  <btn v-on:click.prevent="resetForm" @click.prevent="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Close"/>
+            </div>
             <alert v-if="showAlert" :message="alert.message" :type="alert.type" />
       </modal>
 </template>
@@ -73,7 +71,7 @@
                               { name: 'Height', value: "height"}
                         ],
                         fieldProperties: {
-                              selectedComponent: 'Select Form Element',
+                              selectedComponent: '',
                               isRequired: false
                         } as any,
                         roles : [
@@ -155,14 +153,14 @@
                   },
                   resetForm(){
                         this.fieldProperties = {
-                              selectedComponent: 'Select Form Element',
+                              selectedComponent: '',
                               isRequired: false
                         }
                         this.hasError = false;
                   },
                   submitForm(){
                         /* Check for any errors in the form */
-                        if( this.hasError || this.fieldProperties.selectedComponent === 'Select Form Element') return
+                        if( this.hasError || !this.fieldProperties.selectedComponent) return
                         this.emitter.emit('addFormFields', this.fieldProperties);
                         this.resetForm();
                   }

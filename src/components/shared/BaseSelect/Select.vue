@@ -1,37 +1,22 @@
 <template>
       <div>
-            <label class="text-sm" for="select">{{ label }}</label>
-            <select id="select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" :value="modelValue" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
-                  <option :value="modelValue" disabled selected>Select...</option>
-                  <template v-for="(option, optionIdx) in options" :key="optionIdx" >
+            <label class="text-sm" for="select">{{ details?.label }}</label>
+            <select id="select" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" :value="modelValue" v-on:input="validateField" @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
+                  <option value="" disabled selected>{{ details?.placeholder }}</option>
+                  <template v-for="(option, optionIdx) in details?.options" :key="optionIdx" >
                         <option :value="option.value" v-text="option.name"></option>
                   </template>
             </select>
+            <p v-for="(error, index) in errors" :key="`error-${index}`" class="text-sm text-red-400">- Please enter a {{ error }}</p>
       </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
-interface SelectOption {
-      name: string;
-      value: string;
-}
+import { defineComponent } from 'vue';
+import { i_Validation } from '@/mixins/i_Validation';
 
 export default defineComponent({
-      props: {
-            options: { 
-                  type: Array as PropType<SelectOption[]>, 
-                  required: true 
-            },
-            modelValue: {
-                  type: [String, Number] as PropType<string | number>,
-                  default: "",
-                  required: true
-            },
-            label: {
-                  type: String
-            }
-      }
+      mixins: [ i_Validation ],
+      props: { ...i_Validation.props }
 })
 </script>
