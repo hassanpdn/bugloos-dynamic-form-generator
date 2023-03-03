@@ -16,7 +16,7 @@
                   <btn v-show="showRadioFields" @click.prevent="showRadioFields = !showRadioFields" class="ml-2" bgColor="red" text="Close"/>
             </div>
             
-            <text-input ref="label" :details="{isRequired: true, isPhoneNumber: true, label : 'Label', placeholder: 'Enter label...', type: 'text' }" v-model="fieldProperties.label"/>
+            <text-input ref="label" :details="{isRequired: true, label : 'Label', placeholder: 'Enter label...', type: 'text' }" v-model="fieldProperties.label"/>
 
             <select-input v-show="isComponent(['NumberInput'])" class="mb-2" :details="{ isRequired: true, label : 'Format', options: formats, placeholder: 'Select format' }" v-model="fieldProperties.format"/>
 
@@ -25,11 +25,11 @@
             <select-input v-show="isComponent(['TextInput'])" :details="{ isRequired: true, label : 'Validation', options: validations, placeholder: 'Select validations' }" class="mb-2" v-model="fieldProperties.validation"/>
             
             <description v-show="isComponent(['TextInput'])" class="mb-2" label="Descriptions" placeholder="Enter description..." v-model="fieldProperties.description" :maxLength="200"/>
-            <text-input v-if="isComponent(['Textarea'])" :details="{isRequired: true, isNumber: true, label : 'Max length', placeholder: 'Enter max length...', type: 'number' }" ref="maxLength" v-model="fieldProperties.maxLength"/>
+            <text-input v-if="isComponent(['Textarea'])" :details="{ isRequired: true, isNumber: true, label : 'Max length', placeholder: 'Enter max length...', type: 'number' }" ref="maxLength" v-model="fieldProperties.maxLength"/>
             
             <select-input class="mb-2" v-model="fieldProperties.role" :details="{ isRequired: true, label : 'Form Access Level', options: roles, placeholder: 'Select access level' }"/>
             
-            <check-box class="mb-2" :details="{ label: 'isRequired', isRequired: true }" label="Is required?" v-model="fieldProperties.isRequired" />
+            <check-box class="mb-2" :details="{ label: 'Is required' }" v-model="fieldProperties.isRequired" />
 
             <div class="actions flex justify-center">
                   <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add"/>

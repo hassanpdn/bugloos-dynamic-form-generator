@@ -9,35 +9,20 @@
                   v-bind="$attrs"
                   :id="details?.placeholder"
                   :maxlength="details?.maxLength"
+                  @blur="validateField"
+                  @keyup="validateField"
             >
             </textarea>
+            <p v-for="(error, index) in errors" :key="`error-${index}`" class="text-sm text-red-400">- Please enter a {{ error }}</p>
       </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
+import { i_Validation } from '@/mixins/i_Validation';
 
 export default defineComponent({
-      props: {
-            // label: {
-            //       type: String
-            // },
-            // placeholder: {
-            //       type: String
-            // },
-            details: {
-                  type: Object as PropType<any>
-            },
-            modelValue: {
-                  type: [String, Number] as PropType<string | number>,
-                  default: "",
-                  required: true
-            },
-            // maxLength: {
-            //       type: Number as PropType<number>,
-            //       default: 50,
-            //       required: true
-            // },
-      }
+      mixins: [i_Validation],  
+      props: {...i_Validation.props}
 })
 </script>

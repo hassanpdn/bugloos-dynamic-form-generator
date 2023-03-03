@@ -9,7 +9,7 @@ export const i_Validation =  defineComponent({
                   type: Object as PropType<any>
             },
             modelValue: {
-                  type: String as PropType<string>,
+                  type: [String , Boolean] as any,
                   default: "",
                   required: true
             },
@@ -63,9 +63,11 @@ export const i_Validation =  defineComponent({
                         /** @DynamicInputValidation using a regex from constants and the input value **/
                         if(v === 'Required'){
                               if(!this.modelValue) {
+                                    console.log(this.modelValue)
                                     this.errors.push(`valid value`);
                                     this.hasError = true;
                               }
+                              this.canValidate = false
                               return
                         }
                         if(!this.regexTester(this.validations.find(({ name }) => name === v)!.value, this.modelValue)) {
@@ -76,7 +78,6 @@ export const i_Validation =  defineComponent({
                   this.canValidate = false;
             },
             regexTester(regex: any, value: string): boolean {
-                  console.log(regex)
                   /** If the value is empty return false for @Required fields **/
                   if(!value || !regex) return false
                   const reg = new RegExp(regex);
