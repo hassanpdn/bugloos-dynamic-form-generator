@@ -65,10 +65,9 @@
                               { name: 'Text', value: 'TextInput' },     
                         ],
                         formats: [
-                              { name: 'Price', value: "price"},
-                              { name: 'Phone', value: "phone"},
-                              { name: 'Weight', value: "weight"},
-                              { name: 'Height', value: "height"}
+                              { name: 'Simple Number', value: ""},
+                              { name: 'Currency - USD', value: "USD"},
+                              { name: 'Currency - EUR', value: "EUR"}
                         ],
                         fieldProperties: {
                               selectedComponent: '',

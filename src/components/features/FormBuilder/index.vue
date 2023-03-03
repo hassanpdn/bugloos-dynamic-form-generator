@@ -3,15 +3,15 @@
             <div class="w-full justify-between grid grid-cols-3 gap-7">
                   <text-input @input="setFormTitle" :details="{ type:'text', label:'Form Title', placeholder:'Enter form title...', isRequired: true }" v-model="form.title"/>
                   <select-input v-model="form.role" :details="{label: 'Form Access Level', options: roles, placeholder: 'Select form access level'}"/>
-                  <div class="grid grid-cols-2 gap-2 mt-5">
-                        <btn @click="openFormModal = true" bgColor="blue" textColor="black" class="self-center font-bold" text="Add Field"/>
-                        <btn @click.prevent="submitForm" bgColor="green" textColor="black" class="self-center font-bold" text="Submit"/>
-                  </div>
-                  
                   <!-- ## Enter new fields here using  FieldGenerator component-->
                   <FieldGenerator @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`" />
+                  
             </div>
             <Modal @close="openFormModal = false" v-show="openFormModal"/>
+      </div>
+      <div class="flex w-full justify-center mt-3">
+            <btn @click="openFormModal = true" bgColor="blue" textColor="black" class="self-center font-bold" text="Add Field"/>
+            <btn @click.prevent="submitForm" bgColor="green" textColor="black" class="self-center font-bold ml-3" text="Submit"/>
       </div>
 </template>
 

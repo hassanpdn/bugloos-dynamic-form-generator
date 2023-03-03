@@ -14,6 +14,7 @@
                   @blur="validateField"
                   @keyup="validateField"
             />
+            <span class="text-xs font-bold" v-show="showCurrency"> {{ displayValue }}</span>
             <p v-for="(error, index) in errors" :key="`error-${index}`" class="text-sm text-red-400">- Please enter a {{ error }}</p>
       </div>
 </template>
@@ -23,7 +24,23 @@ import { defineComponent } from 'vue';
 import { i_Validation } from '@/mixins/i_Validation';
 
 export default defineComponent({
-      mixins: [i_Validation],  
-      props: {...i_Validation.props}
+      mixins: [i_Validation], 
+      data(){
+            return {
+                  isFocused: false
+            }
+      },
+      props: {...i_Validation.props},
+      computed: {
+            displayValue(): string {
+                  return new Intl.NumberFormat('en-IN', {
+                        style: 'currency',
+                        currency: this.details?.format,
+                  }).format(this.modelValue) || ''
+            },
+            showCurrency(): boolean{
+                  return !this.errors.length && this.modelValue && ['USD', 'EUR'].includes(this.details?.format)
+            }
+      },
 })
 </script>
