@@ -35,7 +35,7 @@
                   <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add"/>
                   <btn v-on:click.prevent="resetForm" @click.prevent="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Close"/>
             </div>
-            <alert v-if="showAlert" :message="alert.message" :type="alert.type" />
+            <alert class="alert" v-if="showAlert" :message="alert.message" :type="alert.type" />
       </modal>
 </template>
 
@@ -127,7 +127,6 @@
                               this.handleAlert({ type: 'error', message: 'Duplicate item'})
                               return
                         }
-
                         // If there was no error, the option will be pushed to options array
                         this.fieldProperties['radioOptions'].push(this.radioOption);
                   },
@@ -158,6 +157,12 @@
                         this.hasError = false;
                   },
                   submitForm(){
+                        /* Check for any errors in the form if the selected component is radio options */
+                        if(this.fieldProperties.selectedComponent === "RadioInput" && (!this.fieldProperties.hasOwnProperty('radioOptions') || this.fieldProperties['radioOptions']?.length < 2)) {
+                              this.handleAlert({ type: 'error', message: 'Option must be at least two items.'})
+                              return
+                        }
+                        
                         /* Check for any errors in the form */
                         if( this.hasError || !this.fieldProperties.selectedComponent) return
                         this.emitter.emit('addFormFields', this.fieldProperties);
@@ -168,4 +173,11 @@
 </script>
 
 <style>
-</style>;
+      .alert {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: -10%;
+            left: 50%;
+            width: max-content;
+      }
+</style>

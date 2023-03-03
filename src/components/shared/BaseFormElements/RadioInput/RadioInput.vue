@@ -1,7 +1,7 @@
 <template>
       <div class="flex flex-col">
             <label class="text-sm" :for="details?.label">{{ details?.label}}</label>
-            <div class="flex">
+            <div class="flex p-2.5">
                   <label :id="details?.label" v-for="(option, index) in details?.radioOptions" :key="`radio-${index}`" class="inline-flex cursor-pointer items-center mr-4">
                         <input
                               type="radio"

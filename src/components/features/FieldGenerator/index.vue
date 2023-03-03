@@ -1,5 +1,7 @@
 <template>
-      <component v-model="customValue" :is="details.selectedComponent" v-bind="{ details }"></component>
+      <component v-model="customValue" :is="details.selectedComponent" v-bind="{ details }">
+            <slot/>
+      </component>
 </template>
 
 <script lang="ts">

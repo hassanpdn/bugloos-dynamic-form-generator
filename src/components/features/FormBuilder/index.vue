@@ -4,7 +4,9 @@
                   <text-input @input="setFormTitle" :details="{ type:'text', label:'Form Title', placeholder:'Enter form title...', isRequired: true }" v-model="form.title"/>
                   <select-input v-model="form.role" :details="{label: 'Form Access Level', options: roles, placeholder: 'Select form access level'}"/>
                   <!-- ## Enter new fields here using  FieldGenerator component-->
-                  <FieldGenerator @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`" />
+                  <field-generator @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`">
+                        <h1>123123</h1>
+                  </field-generator>
                   
             </div>
             <Modal @close="openFormModal = false" v-show="openFormModal"/>
