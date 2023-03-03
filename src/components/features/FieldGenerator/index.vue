@@ -1,6 +1,6 @@
 <template>
       <component v-model="customValue" :is="details.selectedComponent" v-bind="{ details }">
-            <slot/>
+            <slot name="actions"/>
       </component>
 </template>
 

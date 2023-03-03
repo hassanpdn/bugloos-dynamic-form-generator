@@ -24,7 +24,7 @@
             
             <select-input v-show="isComponent(['TextInput'])" :details="{ isRequired: true, label : 'Validation', options: validations, placeholder: 'Select validations' }" class="mb-2" v-model="fieldProperties.validation"/>
             
-            <description v-show="isComponent(['TextInput'])" class="mb-2" label="Descriptions" placeholder="Enter description..." v-model="fieldProperties.description" :maxLength="200"/>
+            <description v-show="isComponent(['TextInput'])" class="mb-2" :details="{label:'Descriptions' , placeholder:'Enter description...', maxLength:'200' }" v-model="fieldProperties.description"/>
             <text-input v-if="isComponent(['Textarea'])" :details="{ isRequired: true, isNumber: true, label : 'Max length', placeholder: 'Enter max length...', type: 'number' }" ref="maxLength" v-model="fieldProperties.maxLength"/>
             
             <select-input class="mb-2" v-model="fieldProperties.role" :details="{ isRequired: true, label : 'Form Access Level', options: roles, placeholder: 'Select access level' }"/>
@@ -109,7 +109,7 @@
                         const { type, message } = obj;
                         this.alert.type = type;
                         this.alert.message = message;
-                        this.showAlert = true;
+                        this.showAlert = true;0
                         setTimeout(() => {
                               this.showAlert = false
                         }, 3000);
@@ -162,7 +162,6 @@
                               this.handleAlert({ type: 'error', message: 'Option must be at least two items.'})
                               return
                         }
-                        
                         /* Check for any errors in the form */
                         if( this.hasError || !this.fieldProperties.selectedComponent) return
                         this.emitter.emit('addFormFields', this.fieldProperties);

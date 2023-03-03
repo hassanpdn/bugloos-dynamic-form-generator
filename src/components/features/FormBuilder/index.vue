@@ -5,7 +5,9 @@
                   <select-input v-model="form.role" :details="{label: 'Form Access Level', options: roles, placeholder: 'Select form access level'}"/>
                   <!-- ## Enter new fields here using  FieldGenerator component-->
                   <field-generator @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`">
-                        <h1>123123</h1>
+                        <template #actions>
+                              <h1>123123</h1>
+                        </template>
                   </field-generator>
                   
             </div>
