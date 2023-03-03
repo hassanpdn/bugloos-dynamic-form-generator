@@ -33,10 +33,14 @@ export default defineComponent({
       props: {...i_Validation.props},
       computed: {
             displayValue(): string {
-                  return new Intl.NumberFormat('en-IN', {
-                        style: 'currency',
-                        currency: this.details?.format,
-                  }).format(this.modelValue) || ''
+                  if(['USD', 'EUR'].includes(this.details?.format)) {
+                        return new Intl.NumberFormat('en-IN', {
+                              style: 'currency',
+                              currency: this.details?.format,
+                        }).format(this.modelValue)
+                  } else {
+                        return ''
+                  }
             },
             showCurrency(): boolean{
                   return !this.errors.length && this.modelValue && ['USD', 'EUR'].includes(this.details?.format)

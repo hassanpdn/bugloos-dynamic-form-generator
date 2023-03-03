@@ -29,7 +29,11 @@
             
             <select-input class="mb-2" v-model="fieldProperties.role" :details="{ isRequired: true, label : 'Form Access Level', options: roles, placeholder: 'Select access level' }"/>
             
-            <check-box class="mb-2" :details="{ label: 'Is required' }" v-model="fieldProperties.isRequired" />
+            <div class="flex justify-between my-4">
+                  <check-box class="mb-2" :details="{ label: 'Is required' }" v-model="fieldProperties.isRequired" />
+                  <check-box class="mb-2" :details="{ label: 'Is editable' }" v-model="fieldProperties.isEditable" />
+                  <check-box class="mb-2" :details="{ label: 'Is deletable' }" v-model="fieldProperties.isDeletable" />
+            </div>
 
             <div class="actions flex justify-center">
                   <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add"/>
@@ -65,7 +69,7 @@
                               { name: 'Text', value: 'TextInput' },     
                         ],
                         formats: [
-                              { name: 'Simple Number', value: ""},
+                              { name: 'None', value: "NUMBER"},
                               { name: 'Currency - USD', value: "USD"},
                               { name: 'Currency - EUR', value: "EUR"}
                         ],

@@ -1,7 +1,12 @@
 <template>
-      <component v-model="customValue" :is="details.selectedComponent" v-bind="{ details }">
-            <slot name="actions"/>
-      </component>
+      <div class="flex relative">
+            <component v-model="customValue" :is="details.selectedComponent" v-bind="{ details }">
+            </component>
+            <div class="actions flex absolute top-0 right-0">
+                  <img v-show="details?.isEditable" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" :class="{'ml-2': details?.isDeletable}" src="@/assets/images/icons/svg/edit.svg" alt="edit">
+                  <img v-show="details?.isDeletable" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" src="@/assets/images/icons/svg/delete.svg" alt="delete">
+            </div>
+      </div>
 </template>
 
 <script lang="ts">
