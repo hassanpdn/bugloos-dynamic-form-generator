@@ -36,7 +36,7 @@
             </div>
 
             <div class="actions flex justify-center">
-                  <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" text="Add"/>
+                  <btn @click.prevent="validateForm" bgColor="green" textColor="black" class="self-center font-bold" :text="editingMode ? 'Confirm edit' : 'Add Field'"/>
                   <btn v-on:click.prevent="resetForm" @click.prevent="$emit('close')" bgColor="red" textColor="black" class="self-center font-bold ml-5" text="Close"/>
             </div>
             <alert class="alert" v-if="showAlert" :message="alert.message" :type="alert.type" />
@@ -45,6 +45,7 @@
 
 <script lang="ts">
       import { defineComponent } from 'vue';
+
       import Modal from "@/components/shared/BaseModal/Modal.vue";
       import SelectInput from '@/components/shared/BaseSelect/Select.vue';
       import TextInput from '@/components/shared/BaseFormElements/TextInput/TextInput.vue';
@@ -52,7 +53,9 @@
       import CheckBox from '@/components/shared/BaseFormElements/CheckBoxInput/CheckBoxInput.vue';
       import Btn from '@/components/shared/BaseButton/Button.vue';
       import Alert from '@/components/shared/BaseAlert/Alert.vue'
+
       import { validations } from '@/constants';
+      import { generateUniqueId as uuid } from '@/utils';
 
       export default defineComponent({
             name: 'form-builder-modal',
@@ -95,7 +98,8 @@
                               message: '',
                               // Type can be ['info', 'success', 'warning', 'error']
                               type: ''
-                        }
+                        },
+                        editingMode: false
                   }
             },
             methods: {
@@ -158,7 +162,7 @@
                               selectedComponent: '',
                               isRequired: false
                         }
-                        this.hasError = false;
+                        this.hasError = this.editingMode = this.showRadioFields = false;
                   },
                   submitForm(){
                         /* Check for any errors in the form if the selected component is radio options */
@@ -168,9 +172,16 @@
                         }
                         /* Check for any errors in the form */
                         if( this.hasError || !this.fieldProperties.selectedComponent) return
-                        this.emitter.emit('addFormFields', this.fieldProperties);
+                        this.emitter.emit('addFormFields', {field: {...this.fieldProperties, id: this.fieldProperties?.id || uuid()}, editingMode: this.editingMode});
                         this.resetForm();
+                  },
+                  setAvailableFormDetails(details: object){
+                        this.fieldProperties = {...details};
+                        this.editingMode = true;
                   }
+            },
+            mounted(){
+                  this.emitter.on('setAvailableFormDetails', this.setAvailableFormDetails)
             }
       })
 </script>

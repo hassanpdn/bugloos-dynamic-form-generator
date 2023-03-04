@@ -1,10 +1,10 @@
 <template>
-      <div class="flex relative">
+      <div class="relative w-full">
             <component v-model="customValue" :is="details.selectedComponent" v-bind="{ details }">
             </component>
             <div class="actions flex absolute top-0 right-0">
-                  <img v-show="details?.isEditable" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" :class="{'ml-2': details?.isDeletable}" src="@/assets/images/icons/svg/edit.svg" alt="edit">
-                  <img v-show="details?.isDeletable" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" src="@/assets/images/icons/svg/delete.svg" alt="delete">
+                  <img @click="fieldAction('edit')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" src="@/assets/images/icons/svg/edit.svg" alt="edit">
+                  <img @click="fieldAction('delete')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer mr-2" src="@/assets/images/icons/svg/delete.svg" alt="delete">
             </div>
       </div>
 </template>
@@ -32,6 +32,11 @@ export default defineComponent({
             RadioInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/RadioInput/RadioInput.vue')),
             TextInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/TextInput/TextInput.vue')),
             Textarea: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/Textarea/Textarea.vue'))
+      },
+      methods: {
+            fieldAction(action: string){
+                  this.$emit('handleModalState', true , action, this.details)
+            }
       }
 })
 </script>

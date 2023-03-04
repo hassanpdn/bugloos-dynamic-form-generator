@@ -4,17 +4,13 @@
                   <text-input @input="setFormTitle" :details="{ type:'text', label:'Form Title', placeholder:'Enter form title...', isRequired: true }" v-model="form.title"/>
                   <select-input v-model="form.role" :details="{label: 'Form Access Level', options: roles, placeholder: 'Select form access level'}"/>
                   <!-- ## Enter new fields here using  FieldGenerator component-->
-                  <field-generator @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`">
-                        <template #actions>
-                              <h1>123123</h1>
-                        </template>
-                  </field-generator>
+                  <field-generator @handleModalState="handleModalState" @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`"></field-generator>
                   
             </div>
-            <Modal @close="openFormModal = false" v-show="openFormModal"/>
+            <Modal @close="handleModalState(false)" v-show="openFormModal"/>
       </div>
       <div class="flex w-full justify-center mt-3">
-            <btn @click="openFormModal = true" bgColor="blue" textColor="black" class="self-center font-bold" text="Add Field"/>
+            <btn @click="handleModalState(true)" bgColor="blue" textColor="black" class="self-center font-bold" text="Add Field"/>
             <btn @click.prevent="submitForm" bgColor="green" textColor="black" class="self-center font-bold ml-3" text="Submit"/>
       </div>
 </template>
@@ -56,9 +52,18 @@ export default defineComponent({
                   currentItem['value'] = e.target.value
                   return
             },
-            addField(field: []){
-                  this.form.fields.push(field);
-                  this.openFormModal = false;
+            addField(args: any){
+                  // console.log(args.field, args.editingMode)
+                  if(!args.editingMode){
+                        // Push new item to array
+                        this.form.fields.push(args.field);
+                  } else {
+                        // Edit existing item
+                        const id = args.field.id;
+                        const index = this.form.fields.map(function(e) { return e.id; }).indexOf(id);
+                        this.form.fields.splice(index, 1, args.field);
+                  }
+                  this.handleModalState(false)
             },
             submitForm(){
                   console.log('submission')
@@ -66,6 +71,14 @@ export default defineComponent({
             setFormTitle(){
                   // Set title for form and add to Main component ot show in UI.
                   this.emitter.emit('setFormName', this.form.title &&`${this.form.title} Form`)
+            },
+            handleModalState(state: boolean, action?: string, details?:object){
+                  this.openFormModal = state;
+                  if(action === 'edit'){
+                        this.emitter.emit('setAvailableFormDetails', details);
+                  } else if(action === 'delete') {
+                        console.log(this.form.fields);
+                  }
             }
       },
       mounted(){
