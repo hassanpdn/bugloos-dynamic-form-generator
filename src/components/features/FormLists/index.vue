@@ -1,56 +1,59 @@
+<!-- This template renders either a Table or a message stating there are no forms to display -->
 <template>
       <Table @handleAction="handleAction" v-if="items?.headers?.length" :items="items"/>
-      <div v-else class="w-full border-dashed border-gray-300 rounded p-10 flex justify-center border-2">
+      <section v-else class="no-forms w-full border-dashed border-gray-300 rounded p-10 flex justify-center border-2">
             No Forms.
-      </div>
+      </section>
 </template>
-
+<!-- The script section defines the component's behavior and uses the defineComponent method to create it. -->
 <script lang="ts">
       import { defineComponent } from 'vue';
       import Table from '@/components/shared/BaseTable/Table.vue';
 
       export default defineComponent({
-            name: 'form-list',
-            components: { Table },
+            name: 'form-list', // Name of the component
+            components: { Table }, // Imports the Table component for use in this component
             data(){
                   return {
                         items: {
-                              headers: [] as string[],
-                              body : [] as any[]
+                              headers: [] as string[], // Array of strings representing the table column headers
+                              body : [] as any[] // Array of objects representing the table rows
                         }
                   }
             },
             methods: {
+                  // This method sets the table data based on data stored in localStorage
                   setTableInfo(){
                         if (localStorage.getItem('form')) {
-                              const form = JSON.parse(localStorage.getItem('form')!);
-                              this.items.headers = ['title', 'role', 'actions'];
-                              this.items.body = form.map((item: any) => {
+                              const form = JSON.parse(localStorage.getItem('form')!); // Parses the localStorage data
+                              this.items.headers = ['title', 'role', 'actions']; // Sets the table column headers
+                              this.items.body = form.map((item: any) => { // Maps through the form data to create table rows
                                     let obj: any = {
-                                          title: item.title,
-                                          role: item.role,
-                                          id: item.id,
+                                          title: item.title, // Adds the form title to the row
+                                          role: item.role, // Adds the form role to the row
+                                          id: item.id, // Adds the form id to the row
                                           actions: [] // Add any desired actions here
                                     };
-                                    if (item.isEditable) {
+                                    if (item.isEditable) { // If the form is editable, adds 'Edit' to the actions array
                                           obj.actions.push('Edit');
                                     }
-                                    if (item.isDeletable) {
+                                    if (item.isDeletable) { // If the form is deletable, adds 'Delete' to the actions array
                                           obj.actions.push('Delete');
                                     }
-                                    return obj;
+                                    return obj; // Returns the completed row object
                               });
-                        } else {
+                        } else { // If there is no data in localStorage, sets the table data to empty arrays
                               this.items.headers = [];
                               this.items.body = [];
                         }
                   },
+                  // This method handles table row actions (in this case, editing and deleting)
                   handleAction(args: any){
                         const { item, action } = args;
-                        if(action === 'Edit') {
+                        if(action === 'Edit') { // If the action is Edit, emits a 'setCurrentItem' event and stores the form id in localStorage
                               this.emitter.emit('setCurrentItem', 'Create');
                               localStorage.setItem('currentFormId', item.id);
-                        } else {
+                        } else { // If the action is Delete, removes the form from localStorage and updates the table data
                               let forms = JSON.parse(localStorage.getItem('form')!);
                               forms = forms.filter((obj : any) => obj.id !== item.id);
                               localStorage.setItem('form', JSON.stringify(forms));
@@ -59,7 +62,7 @@
                         }
                   }
             },
-            mounted(){
+            mounted(){ // This hook runs when the component is mounted and sets the form name and table data
                   this.emitter.emit('setFormName', '');
                   this.setTableInfo();
             }

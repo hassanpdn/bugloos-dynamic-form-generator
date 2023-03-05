@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Button from '@/components/BaseButton/Button.vue';
+import Button from '@/components/shared/BaseButton/Button.vue';
 import { describe, it, expect } from "vitest";
 
 describe('Button', () => {
@@ -21,7 +21,7 @@ describe('Button', () => {
             const wrapper = mount(Button, {
                   propsData: {
                         expanded: true,
-                        bgColor: 'bg-red-300'
+                        bgColor: 'red'
                   }
             })
             expect(wrapper.classes()).toContain('w-full');
