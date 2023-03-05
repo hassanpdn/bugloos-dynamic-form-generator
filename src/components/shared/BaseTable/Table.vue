@@ -4,20 +4,21 @@
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                               <th v-for="(header, i) in items.headers" :key="`header-${i}`" scope="col" class="text-center px-6 py-3">
-                                    {{ header }}
+                                    {{ header || '- - -' }}
                               </th>
                         </tr>
                   </thead>
                   <tbody>
                         <tr v-for="(item, j) in items.body" :key="`item-${j}`" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                               <th scope="row" class="text-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    {{ item.name }}
+                                    {{ item.title || '- - -' }}
                               </th>
                               <td class="text-center px-6 py-4">
-                                    {{ items.headers[j + 1] }}
+                                    {{ item.role || '- - -' }}
                               </td>
-                              <td class="text-center px-6 py-4">
-                                    <a v-for="(action, k) in item.actions" :key="`action-${j}`" href="#" class="font-medium mr-10 text-blue-600 dark:text-blue-500 hover:underline">{{ action }}</a>
+                              <td class="flex justify-center text-center px-6 py-4">
+                                    <a v-if="item.actions.length" @click="handleAction({item, action})" v-for="(action, k) in item.actions" :key="`action-${k}`" href="#" class="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline">{{ action || '- - -' }}</a>
+                                    <span class="mr-5" v-else>- - -</span>
                               </td>
                         </tr>
                   </tbody>
@@ -27,13 +28,19 @@
 
 <script lang="ts">
       import { defineComponent, PropType } from 'vue';
-      import { TableItemTypes } from '@/typings/interface/index'
+      import { TableItemTypes } from '@/typings/interface/index';
+
       export default defineComponent({
             name: 'table-component',
             props: {
                   items: {
                         type: Object as PropType<TableItemTypes>,
                         default: {}
+                  }
+            },
+            methods: {
+                  handleAction(form: any){
+                        this.$emit('handleAction', form);
                   }
             }
 

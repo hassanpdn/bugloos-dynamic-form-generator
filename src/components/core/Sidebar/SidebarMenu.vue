@@ -30,6 +30,9 @@
                         this.emitter.emit('setActiveMenu', item)
                         this.emitter.emit('closeMenu')
                   }
+            },
+            mounted(){
+                  this.emitter.on('setCurrentItem', this.setCurrentItem)
             }
       })
 </script>

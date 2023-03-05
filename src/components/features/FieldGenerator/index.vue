@@ -1,7 +1,6 @@
 <template>
       <div class="relative w-full">
-            <component v-model="customValue" :is="details.selectedComponent" v-bind="{ details }">
-            </component>
+            <component :ref="details?.id" v-model="customValue" :is="details.selectedComponent" v-bind="{ details }"></component>
             <div class="actions flex absolute top-0 right-0">
                   <img @click="fieldAction('edit')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" src="@/assets/images/icons/svg/edit.svg" alt="edit">
                   <img @click="fieldAction('delete')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer mr-2" src="@/assets/images/icons/svg/delete.svg" alt="delete">
@@ -35,7 +34,11 @@ export default defineComponent({
       },
       methods: {
             fieldAction(action: string){
-                  this.$emit('handleModalState', true , action, this.details)
+                  this.$emit('handleModalState', action === 'edit' ? true : false , action, this.details)
+            },
+            validateForm(){
+                  const ref = this.details?.id;
+                  console.log('ref', this.$refs[ref])
             }
       }
 })
