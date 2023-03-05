@@ -1,5 +1,5 @@
 <template>
-      <Table @handleAction="handleAction" v-if="computedForms?.headers?.length" :items="computedForms"/>
+      <Table @handleAction="handleAction" v-if="items?.headers?.length" :items="items"/>
       <div v-else class="w-full border-dashed border-gray-300 rounded p-10 flex justify-center border-2">
             No Forms.
       </div>
@@ -15,19 +15,17 @@
             data(){
                   return {
                         items: {
-                              // headers: ['name', 'family' , 'actions'],
-                              // body : [{name: 'hassan', family: 'pudineh', actions: ['Edit', 'Delete']}],
                               headers: [] as string[],
-                              body : [{}] as any[]
+                              body : [] as any[]
                         }
                   }
             },
-            computed: {
-                  computedForms(): any {
+            methods: {
+                  setTableInfo(){
                         if (localStorage.getItem('form')) {
                               const form = JSON.parse(localStorage.getItem('form')!);
-                              const headers = ['title', 'role', 'actions'];
-                              const body = form.map((item: any) => {
+                              this.items.headers = ['title', 'role', 'actions'];
+                              this.items.body = form.map((item: any) => {
                                     let obj: any = {
                                           title: item.title,
                                           role: item.role,
@@ -42,28 +40,28 @@
                                     }
                                     return obj;
                               });
-                              return {
-                                    headers: headers,
-                                    body: body
-                              };
                         } else {
-                              return this.items;
+                              this.items.headers = [];
+                              this.items.body = [];
                         }
-                  }
-            },
-            methods: {
+                  },
                   handleAction(args: any){
                         const { item, action } = args;
                         if(action === 'Edit') {
                               this.emitter.emit('setCurrentItem', 'Create');
-                              localStorage.setItem('currentFormId', item.id)
+                              localStorage.setItem('currentFormId', item.id);
                         } else {
-                              console.log(action)
+                              let forms = JSON.parse(localStorage.getItem('form')!);
+                              forms = forms.filter((obj : any) => obj.id !== item.id);
+                              localStorage.setItem('form', JSON.stringify(forms));
+                              !forms.length && localStorage.removeItem('form');
+                              this.setTableInfo();
                         }
                   }
             },
             mounted(){
-                  this.emitter.emit('setFormName', '')
+                  this.emitter.emit('setFormName', '');
+                  this.setTableInfo();
             }
       })
 </script>

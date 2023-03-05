@@ -10,7 +10,6 @@
                   <!-- ## Enter new fields here using  FieldGenerator component-->
                   <field-generator @handleModalState="handleModalState" @input="handleValue($event, component.label)" v-for="(component, index) in form.fields" :details="component" :key="`component-${index}`"></field-generator>
                   <alert class="alert" v-if="showAlert" :message="alert.message" :type="alert.type" />
-
             </div>
             <Modal @close="handleModalState(false)" v-show="openFormModal"/>
       </div>
@@ -51,8 +50,8 @@ export default defineComponent({
                         role: '',
                         isEditable: false,
                         isDeletable: false,
-                        fields: [] as Array<any>
-                  },
+                        fields: [] as any
+                  } as any,
                   openFormModal: false,
                   hasError: false,
                   showAlert: false,
@@ -62,7 +61,30 @@ export default defineComponent({
                   }
             }
       },
+      watch: {
+
+      },
+      computed: {
+            // form(){
+            //       if(localStorage.getItem('currentFormId') && localStorage.getItem('form')){
+            //             const id : string = localStorage.getItem('currentFormId')!;
+            //             const forms : any = JSON.parse(localStorage.getItem('form')!);
+            //             const currentForm = forms.find((item: any) => item.id === id);
+            //             // this.form = {...currentForm};
+            //             return currentForm
+            //       } else return {
+            //             title: '',
+            //             role: '',
+            //             isEditable: false,
+            //             isDeletable: false,
+            //             fields: [] as any
+            //       }
+            // }
+      },
       methods: {
+            async forceRerender() {
+                  this.componentKey += 1;
+            },
             handleValue(e: Event | any, prop: { [key: string]: string}){
                   let currentItem = this.form.fields.find(item => item.label === prop);
                   currentItem['value'] = e.target.value
@@ -72,6 +94,7 @@ export default defineComponent({
                   // console.log(args.field, args.editingMode)
                   if(!args.editingMode){
                         // Push new item to array
+                        console.log(args)
                         this.form.fields.push(args.field);
                   } else {
                         // Edit existing item
@@ -104,7 +127,11 @@ export default defineComponent({
                         errors.push(ref.hasError)
                   })
                   this.hasError = errors.some(i => i);
-                  this.submitForm()
+                  !this.hasError && this.submitForm()
+            },
+            getExistingForms(): []{
+                  // Retrieve the form data from local storage
+                  return JSON.parse(localStorage.getItem('form')!) || [];
             },
             submitForm(){
                   if(this.form.fields.length < 1){
@@ -112,22 +139,24 @@ export default defineComponent({
                         return
                   }
                   // Define the array of forms
-                  const forms: any[] = [];
-                  // Check if there is a form in local storage
-                  if (localStorage.getItem('form')) {
-                        // Retrieve the form data from local storage
-                        const form: any[] = JSON.parse(localStorage.getItem('form')!);
-                        // Add each form from local storage to the array
-                        form.forEach((item: any) => {
-                              forms.push(item);
-                        });
+                  const forms: any[] = this.getExistingForms();
+
+                  // Existance of id means the mode is edit
+                  const id : string = localStorage.getItem('currentFormId')!;
+                  if(id){
+                        let currentForm = forms.find((i : any) => i.id === id);
+                        Object.assign(currentForm, this.form);
+                  } else {
+                        forms.push({...this.form, id: uuid()});
                   }
-
-                  // Add the current form to the array
-                  forms.push({...this.form, id: uuid()});
-
+                  
+                  localStorage.removeItem('form');
+                  localStorage.removeItem('currentFormId');
                   // Save the updated array to local storage
                   localStorage.setItem('form', JSON.stringify(forms));
+
+                  //Change component to list of forms;
+                  this.emitter.emit('setCurrentItem', 'Forms')
                   this.handleAlert({ type: 'success', message: 'Form submitted successfully.'})
             },
             setFormTitle(){
@@ -140,18 +169,23 @@ export default defineComponent({
                         this.emitter.emit('setAvailableFormDetails', details);
                   } else if(action === 'delete') {
                         const id = details?.id;
-                        const index = this.form.fields.map(function(e) { return e.id; }).indexOf(id);
+                        const index = this.form.fields.map(function(e : any) { return e.id }).indexOf(id);
                         this.form.fields.splice(index, 1);
                   }
             },
-            editForm(form: any){
-                  console.log(form);
-                  this.form = form;
+            checkLocalStorage(){
+                  localStorage.getItem('currentFormId') && this.setCurrentFormDetails();
+            },
+            setCurrentFormDetails(){
+                  const id : string = localStorage.getItem('currentFormId')!;
+                  const forms : any = JSON.parse(localStorage.getItem('form')!);
+                  const currentForm = forms.find((item: any) => item.id === id);
+                  this.form = {...currentForm};
             }
       },
       mounted(){
+            this.checkLocalStorage();
             this.emitter.on('addFormFields', this.addField);
-            this.emitter.on('editForm', this.editForm);
       }
 
 })
