@@ -11,5 +11,5 @@ module.exports = {
             {
                   pattern: /(bg|border|text)-(red|green|blue|orange)-(100|200|300|400|500)/,
             },
-      ],
+      ], 
 }
