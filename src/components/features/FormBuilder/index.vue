@@ -96,7 +96,7 @@ export default defineComponent({
                   } else {
                         // Edit existing item
                         const id = args.field.id;
-                        const index = this.form.fields.map(function(e) { return e.id; }).indexOf(id);
+                        const index = this.form.fields.map(function(e : any) { return e.id; }).indexOf(id);
                         this.form.fields.splice(index, 1, args.field);
                   }
                   this.handleModalState(false)

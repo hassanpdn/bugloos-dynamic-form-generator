@@ -67,7 +67,7 @@ describe('NumberInput', () => {
       it('should not show currency if format is not USD or EUR', () => {
             const wrapper = shallowMount(NumberInput, {
                   props: {
-                        modelValue: 12345.67,
+                        modelValue: '12345.67',
                         details: {
                               format: 'CAD',
                         },
