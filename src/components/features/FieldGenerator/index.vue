@@ -30,7 +30,8 @@ export default defineComponent({
             DateRangeInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/DateRangeInput/DateRangeInput.vue')),
             RadioInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/RadioInput/RadioInput.vue')),
             TextInput: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/TextInput/TextInput.vue')),
-            Textarea: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/Textarea/Textarea.vue'))
+            Textarea: defineAsyncComponent(() => import('@/components/shared/BaseFormElements/Textarea/Textarea.vue')),
+            SelectBoxInput: defineAsyncComponent(() => import('@/components/shared/BaseSelect/Select.vue'))
       },
       methods: {
             fieldAction(action: string){

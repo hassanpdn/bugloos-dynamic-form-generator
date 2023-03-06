@@ -70,6 +70,7 @@
                               { name: 'Radio', value: 'RadioInput' },
                               { name: 'Description', value: 'Textarea' },     
                               { name: 'Text', value: 'TextInput' },     
+                              { name: 'Select', value: 'SelectBoxInput' }
                         ],
                         formats: [
                               { name: 'None', value: "NUMBER"},
