@@ -82,7 +82,7 @@
                         } as any,
                         roles : [
                               { name: 'Admin', value: 'admin' },
-                              { name: 'Guest', value: 'guest' }
+                              { name: 'Staff', value: 'staff' }
                         ],
                         validations : [
                               { name: 'Email', value: 'Email' },

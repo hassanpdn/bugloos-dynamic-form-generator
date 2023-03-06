@@ -52,7 +52,7 @@ export default defineComponent({
                   // list of available user roles for form access level
                   roles : [
                         { name: 'Admin', value: 'admin' },
-                        { name: 'Guest', value: 'guest' }
+                        { name: 'Staff', value: 'staff' }
                   ],
 
                   // list of available form actions
