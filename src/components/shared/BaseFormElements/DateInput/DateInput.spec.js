@@ -21,6 +21,6 @@ describe('DatePickerInput', () => {
                   },
             };
             const wrapper = mount(DatePickerInput, { propsData: props });
-            expect(wrapper.vm.$data.date).toBeFalsy();
+            expect(wrapper.vm.$data.date).toBe(false);
       });
 });

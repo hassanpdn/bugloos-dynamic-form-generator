@@ -1,23 +1,31 @@
 import { mount } from '@vue/test-utils'
-import Alert from '@/components/shared/BaseAlert/Alert.vue';
+import Button from '@/components/BaseButton/Button.vue';
 import { describe, it, expect } from "vitest";
 
-describe('Alert', () => {
-      it('renders message prop', () => {
-            const message = 'Hello World';
-            const bgColor = 'red';
-            const wrapper = mount(Alert, {
-                  propsData: { message },
-            });
+describe('Button', () => {
+      const wrapper = mount(Button)
+      it('renders a vue instance', () => {
+            expect(wrapper.html()).toMatchSnapshot()
+      })
 
-            expect(wrapper.text()).toContain(message);
-      });
+      it('renders a button', () => {
+            expect(wrapper.find('button').exists()).toBe(true)
+      })
 
-      it('renders class based on prop', () => {
-            const bgColor = 'red';
-            const wrapper = mount(Alert, {
-                  propsData: { bgColor },
-            });
-            expect(wrapper.classes('.bg-red-100')).toBeDefined();
-      });
-});
+      it('should call click handler', async () => {
+            await wrapper.find('button').trigger('click')
+            expect(wrapper.emitted().click).toBeTruthy()
+      })
+
+      it('checks the prop to be passed', () => {
+            const wrapper = mount(Button, {
+                  propsData: {
+                        expanded: true,
+                        bgColor: 'bg-red-300'
+                  }
+            })
+            expect(wrapper.classes()).toContain('w-full');
+            expect(wrapper.classes()).toContain('bg-red-300');
+      })
+
+})

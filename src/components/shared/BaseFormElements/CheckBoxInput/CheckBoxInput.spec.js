@@ -19,9 +19,8 @@ describe('CheckBoxInput', () => {
             await wrapper.vm.$nextTick();
 
             const inputField = wrapper.find('input').element;
-            console.log(inputField)
-            const value = Boolean(inputField.value);
+            const value = inputField.value
             // Check that the update:modelValue event was emitted with the correct value
-            expect(value).toBe(true);
+            expect(value).toBe(true)
       });
 });
