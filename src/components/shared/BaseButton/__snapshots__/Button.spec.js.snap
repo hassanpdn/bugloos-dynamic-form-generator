@@ -1,3 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`Button > renders a vue instance 1`] = `"<button class=\\"p-2.5 rounded-lg hover:shadow-md hover:shadow-gray-100 transition-colors transition-shadows duration-500 ease-linear hover:bg-bg-blue-500-50 bg-bg-blue-500-300 text-black\\">button</button>"`;
