@@ -9,6 +9,10 @@ export default defineConfig({
     },
   },
   plugins: [vue()],
+  build: {
+      outDir: 'dist'
+    },
+    base: '/bugloos-dynamic-form-generator.git/',
   test: {
       globals: true,
             environment: 'jsdom'
