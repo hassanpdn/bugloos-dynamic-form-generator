@@ -21,7 +21,11 @@
       import { defineComponent } from 'vue';
       import Table from '@/components/shared/BaseTable/Table.vue';
       import Modal from '@/components/shared/BaseModal/Modal.vue';
-      import { FormObject } from '@/typings/interface/index'
+      import { FormObject } from '@/typings/interface/index';
+
+      import { mapState } from 'pinia';
+      import { userStore } from '@/store/User.store';
+
       export default defineComponent({
             name: 'form-list', // Name of the component
             components: { Table, Modal }, // Imports the Table component for use in this component
@@ -41,7 +45,8 @@
                         if (localStorage.getItem('form')) {
                               const form = JSON.parse(localStorage.getItem('form')!); // Parses the localStorage data
                               this.items.headers = ['title', 'role', 'actions']; // Sets the table column headers
-                              this.items.body = form.map((item: any) => { // Maps through the form data to create table rows
+                              this.items.body = form.map((item: any) => {
+                                    // Maps through the form data to create table rows
                                     let obj: any = {
                                           title: item.title, // Adds the form title to the row
                                           role: item.role, // Adds the form role to the row

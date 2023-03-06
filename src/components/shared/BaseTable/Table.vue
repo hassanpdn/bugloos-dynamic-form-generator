@@ -17,7 +17,8 @@
                                     {{ item.role || '- - -' }}
                               </td>
                               <td class="flex justify-center text-center px-6 py-4">
-                                    <a @click="handleAction({item, action})" v-for="(action, k) in [...item.actions, 'View', 'New']" :key="`action-${k}`" href="#" class="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline">{{ action || '- - -' }}</a>
+                                    <a v-if="item.actions.length" @click="handleAction({item, action})" v-for="(action, k) in item.actions" :key="`action-${k}`" href="#" class="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline">{{ action || '- - -' }}</a>
+                                    <span class="mr-5" v-else>- - -</span>
                               </td>
                         </tr>
                   </tbody>
@@ -42,6 +43,7 @@
                         this.$emit('handleAction', form);
                   }
             }
+
       })
 </script>
 
