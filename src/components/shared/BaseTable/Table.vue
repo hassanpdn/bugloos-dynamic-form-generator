@@ -1,5 +1,5 @@
 <template>
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -17,8 +17,7 @@
                                     {{ item.role || '- - -' }}
                               </td>
                               <td class="flex justify-center text-center px-6 py-4">
-                                    <a v-if="item.actions.length" @click="handleAction({item, action})" v-for="(action, k) in item.actions" :key="`action-${k}`" href="#" class="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline">{{ action || '- - -' }}</a>
-                                    <span class="mr-5" v-else>- - -</span>
+                                    <a @click="handleAction({item, action})" v-for="(action, k) in [...item.actions, 'View', 'New']" :key="`action-${k}`" href="#" class="font-medium mr-5 text-blue-600 dark:text-blue-500 hover:underline">{{ action || '- - -' }}</a>
                               </td>
                         </tr>
                   </tbody>
@@ -43,7 +42,6 @@
                         this.$emit('handleAction', form);
                   }
             }
-
       })
 </script>
 

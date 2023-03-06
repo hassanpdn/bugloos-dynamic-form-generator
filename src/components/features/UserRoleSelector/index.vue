@@ -19,7 +19,11 @@ export default defineComponent({
             setUserRole(userRole: string) {
                   const store = userStore();
                   store.user = userRole;
+                  this.emitter.emit('setActiveMenu', 'Create');
             }
+      },
+      mounted(){
+            localStorage.removeItem('currentFormId')
       }
 })
 </script>

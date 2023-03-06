@@ -34,7 +34,7 @@ export default defineComponent({
       },
       methods: {
             fieldAction(action: string){
-                  this.$emit('handleModalState', action === 'edit' ? true : false , action, this.details)
+                  this.$emit('handleModalState', action === 'edit' ? true : false , action, {...this.details, value: this.customValue})
             },
             validateForm(){
                   const ref = this.details?.id;

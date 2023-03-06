@@ -4,21 +4,35 @@
       <section v-else class="no-forms w-full border-dashed border-gray-300 rounded p-10 flex justify-center border-2">
             No Forms.
       </section>
+      <modal @close="showFormDetails = false" v-if="showFormDetails">
+            <div class="p-4 border rounded-md">
+                  <h1 class="text-lg font-medium text-center border-b-2 border-dashed pb-2">{{ item?.title }}</h1>
+                  <div class="grid grid-cols-2 mt-2">
+                        <div v-for="(field, index) in item?.fields" :key="index" class="flex items-center my-2">
+                              <label class="font-medium p-2">{{ field.label }} <span class="text-orange-400 text-bold">:</span></label>
+                              <p class="text-gray-700 font-medium ml-2">{{ field.value || '- - -' }}</p>
+                        </div>
+                  </div>
+            </div>
+      </modal>
 </template>
-<!-- The script section defines the component's behavior and uses the defineComponent method to create it. -->
+
 <script lang="ts">
       import { defineComponent } from 'vue';
       import Table from '@/components/shared/BaseTable/Table.vue';
-
+      import Modal from '@/components/shared/BaseModal/Modal.vue';
+      import { FormObject } from '@/typings/interface/index'
       export default defineComponent({
             name: 'form-list', // Name of the component
-            components: { Table }, // Imports the Table component for use in this component
+            components: { Table, Modal }, // Imports the Table component for use in this component
             data(){
                   return {
                         items: {
                               headers: [] as string[], // Array of strings representing the table column headers
                               body : [] as any[] // Array of objects representing the table rows
-                        }
+                        },
+                        showFormDetails: false,
+                        item : {} as FormObject
                   }
             },
             methods: {
@@ -50,15 +64,20 @@
                   // This method handles table row actions (in this case, editing and deleting)
                   handleAction(args: any){
                         const { item, action } = args;
-                        if(action === 'Edit') { // If the action is Edit, emits a 'setCurrentItem' event and stores the form id in localStorage
+                        if(action === 'Edit' || action === 'New') { // If the action is Edit, emits a 'setCurrentItem' event and stores the form id in localStorage
                               this.emitter.emit('setCurrentItem', 'Create');
                               localStorage.setItem('currentFormId', item.id);
-                        } else { // If the action is Delete, removes the form from localStorage and updates the table data
+                        } else if(action === 'Delete') { // If the action is Delete, removes the form from localStorage and updates the table data
                               let forms = JSON.parse(localStorage.getItem('form')!);
                               forms = forms.filter((obj : any) => obj.id !== item.id);
                               localStorage.setItem('form', JSON.stringify(forms));
                               !forms.length && localStorage.removeItem('form');
                               this.setTableInfo();
+                        } else {
+                              this.showFormDetails = true;
+                              const form = JSON.parse(localStorage.getItem('form')!);
+                              const viewingItem = form.find((i : any) => i.id === item.id);
+                              this.item = Object.assign(this.item, viewingItem);
                         }
                   }
             },
