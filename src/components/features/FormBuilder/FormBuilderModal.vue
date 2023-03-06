@@ -4,16 +4,16 @@
             
             <select-input ref="fieldType" class="mb-2" @input="handleComponentSelection" :details="{ isRequired: true, label : 'Field Type', options: componentNames, placeholder: 'Select field type' }" v-model="fieldProperties.selectedComponent"/>
 
-            <text-input v-if="showRadioFields" ref="radioOptions" :details="{ isRequired: true, label : 'Radio option', placeholder: 'Enter radio option...', type: 'text' }" v-model="radioOption"/>
-            <div v-if="fieldProperties.radioOptions && showRadioFields">
-                  <p class="relative text-sm p-2 bg-white text-black border-dashed border-2 rounded my-2 inline-block mr-3" v-for="(item, index) in fieldProperties.radioOptions" :key="`option-${index}`">
+            <text-input v-if="showOptions" ref="options" :details="{ isRequired: true, label : 'options', placeholder: 'Enter option...', type: 'text' }" v-model="option"/>
+            <div v-if="fieldProperties.options && showOptions">
+                  <p class="relative text-sm p-2 bg-white text-black border-dashed border-2 rounded my-2 inline-block mr-3" v-for="(item, index) in fieldProperties.options" :key="`option-${index}`">
                         {{ item }}
-                        <img @click="removeRadioOption(index)" class="absolute top-0 right-0 cursor-pointer -m-2" width="20" height="20" src="@/assets/images/icons/svg/cancel.svg" alt="cancel">
+                        <img @click="removeOption(index)" class="absolute top-0 right-0 cursor-pointer -m-2" width="20" height="20" src="@/assets/images/icons/svg/cancel.svg" alt="cancel">
                   </p>
             </div>
-            <div v-show="isComponent(['RadioInput'])" class="actions flex justify-start text-sm text-white font-bold my-2">
-                  <btn :disabled="showRadioFields && !radioOption" @click.prevent="!showRadioFields ? showRadioFields = true : addRadioOption()" bgColor="blue" text="Add option"/>
-                  <btn v-show="showRadioFields" @click.prevent="showRadioFields = !showRadioFields" class="ml-2" bgColor="red" text="Close"/>
+            <div v-show="isComponent(['RadioInput', 'SelectBoxInput'])" class="actions flex justify-start text-sm text-white font-bold my-2">
+                  <btn :disabled="showOptions && !option" @click.prevent="!showOptions ? showOptions = true : addOption()" bgColor="blue" text="Add option"/>
+                  <btn v-show="showOptions" @click.prevent="showOptions = !showOptions" class="ml-2" bgColor="red" text="Close"/>
             </div>
             
             <text-input ref="label" :details="{isRequired: true, label : 'Label', placeholder: 'Enter label...', type: 'text' }" v-model="fieldProperties.label"/>
@@ -91,28 +91,35 @@
                               { name: 'Text', value: 'Text' },
                               { name: 'Required', value: 'Required' },
                         ],
-                        radioOption: '',
+                        option: '',
                         hasError: false,
-                        showRadioFields: false,
+                        showOptions: false,
                         showAlert: false,
                         alert: {
                               message: '',
                               // Type can be ['info', 'success', 'warning', 'error']
                               type: ''
                         },
-                        editingMode: false
+                        editingMode: false,
+                        optionalComponentName: ''
                   }
             },
             methods: {
                   isComponent(names: string[]): boolean{
                         const checker = names.some( name => {
                               return this.fieldProperties.selectedComponent === name
+
                         })
                         return checker
                   },
                   handleComponentSelection(){
-                        this.showRadioFields = false;
-                        delete this.fieldProperties['radioOptions'];
+                        this.showOptions = false;
+                        delete this.fieldProperties['options'];
+                        this.option = '';
+                        // Check for optional component like radio buttons and select;
+                        if(['RadioInput', 'SelectBoxInput'].includes(this.fieldProperties.selectedComponent)) {
+                              this.optionalComponentName = this.fieldProperties.selectedComponent;
+                        }
                   },
                   handleAlert( obj: { type: string, message: string } ){
                         const { type, message } = obj;
@@ -123,24 +130,24 @@
                               this.showAlert = false
                         }, 3000);
                   },
-                  addRadioOption(){
+                  addOption(){
                         // Create an array if there is no array in fieldProperties
-                        if(!this.fieldProperties['radioOptions']) this.fieldProperties['radioOptions'] = new Array();
+                        if(!this.fieldProperties['options']) this.fieldProperties['options'] = new Array();
 
-                        if (this.fieldProperties['radioOptions'].length > 3) {
+                        if (this.fieldProperties['options'].length > 3) {
                               // Too many items
                               this.handleAlert({ type: 'error', message: '"For many items use select input instead.'})
                               return
-                        } else if (this.fieldProperties['radioOptions'].includes(this.radioOption)){
+                        } else if (this.fieldProperties['options'].includes(this.option)){
                               // Duplicate option condition
                               this.handleAlert({ type: 'error', message: 'Duplicate item'})
                               return
                         }
                         // If there was no error, the option will be pushed to options array
-                        this.fieldProperties['radioOptions'].push(this.radioOption);
+                        this.fieldProperties['options'].push(this.option);
                   },
-                  removeRadioOption(i: number){
-                        this.fieldProperties['radioOptions'].splice(i, 1);
+                  removeOption(i: number){
+                        this.fieldProperties['options'].splice(i, 1);
                   },
                   validateForm(e: Event){
                         e.preventDefault();
@@ -163,11 +170,11 @@
                               selectedComponent: '',
                               isRequired: false
                         }
-                        this.hasError = this.editingMode = this.showRadioFields = false;
+                        this.hasError = this.editingMode = this.showOptions = false;
                   },
                   submitForm(){
                         /* Check for any errors in the form if the selected component is radio options */
-                        if(this.fieldProperties.selectedComponent === "RadioInput" && (!this.fieldProperties.hasOwnProperty('radioOptions') || this.fieldProperties['radioOptions']?.length < 2)) {
+                        if((this.fieldProperties.selectedComponent === "RadioInput" || this.fieldProperties.selectedComponent === "SelectBoxInput") && (!this.fieldProperties.hasOwnProperty('options') || this.fieldProperties['options']?.length < 2)) {
                               this.handleAlert({ type: 'error', message: 'Option must be at least two items.'})
                               return
                         }

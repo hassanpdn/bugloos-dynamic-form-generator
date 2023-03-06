@@ -51,7 +51,7 @@
                                           title: item.title, // Adds the form title to the row
                                           role: item.role, // Adds the form role to the row
                                           id: item.id, // Adds the form id to the row
-                                          actions: [] // Add any desired actions here
+                                          actions: ['View'] // Add any desired actions here
                                     };
                                     if (item.isEditable) { // If the form is editable, adds 'Edit' to the actions array
                                           obj.actions.push('Edit');
