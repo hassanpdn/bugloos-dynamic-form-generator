@@ -1,16 +1,21 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Button from '@/components/Button.vue'
+import Sidebar from '@/components/core/Sidebar/Sidebar.vue';
+import Menu from '@/components/core/Main/Main.vue';
 
 export default defineComponent({
       components: {
-            Button
+            Sidebar,
+            Menu
       }
 })
 </script>
 
 <template>
-  <Button />
+      <div class="flex w-full h-screen overflow-hidden">
+            <Sidebar />
+            <Menu />
+      </div>
 </template>
 
 <style scoped>
