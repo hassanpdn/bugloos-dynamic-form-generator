@@ -59,9 +59,13 @@
                                     if (item.isDeletable) { // If the form is deletable, adds 'Delete' to the actions array
                                           obj.actions.push('Delete');
                                     }
+                                    if (item.canAddNewField) { // If the for can have new fields, adds 'Delete' to the actions array
+                                          obj.actions.push('New');
+                                    }
                                     return obj; // Returns the completed row object
                               });
-                        } else { // If there is no data in localStorage, sets the table data to empty arrays
+                        } else { 
+                              // If there is no data in localStorage, sets the table data to empty arrays
                               this.items.headers = [];
                               this.items.body = [];
                         }
@@ -72,6 +76,7 @@
                         if(action === 'Edit' || action === 'New') { // If the action is Edit, emits a 'setCurrentItem' event and stores the form id in localStorage
                               this.emitter.emit('setCurrentItem', 'Create');
                               localStorage.setItem('currentFormId', item.id);
+                              this.emitter.emit('setAction', action);
                         } else if(action === 'Delete') { // If the action is Delete, removes the form from localStorage and updates the table data
                               let forms = JSON.parse(localStorage.getItem('form')!);
                               forms = forms.filter((obj : any) => obj.id !== item.id);

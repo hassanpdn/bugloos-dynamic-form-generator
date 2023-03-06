@@ -20,7 +20,8 @@ export interface FormObject {
       title: string
       role: string
       isEditable: boolean
-      isDeletable: boolean
+      isDeletable: boolean,
+      canAddNewField? : boolean,
       fields: {
             selectedComponent: string
             isRequired: boolean
