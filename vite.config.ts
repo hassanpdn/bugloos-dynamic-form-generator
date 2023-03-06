@@ -3,17 +3,17 @@ import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
 
 export default defineConfig({
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
-    },
-  },
-  plugins: [vue()],
-  test: {
-      globals: true,
-            environment: 'jsdom'
+      resolve: {
+      alias: {
+            '@': resolve(__dirname, 'src'),
       },
-  server: {
-    port: 3000
-  },
+      },
+      plugins: [vue()],
+      test: {
+      globals: true,
+      environment: 'jsdom',
+      },
+      server: {
+      port: 3000,
+      },
 })
