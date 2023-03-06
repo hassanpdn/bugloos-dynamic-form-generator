@@ -12,7 +12,7 @@ export default defineConfig({
   build: {
       outDir: 'dist'
     },
-    base: '/bugloos-dynamic-form-generator.git/',
+    base: '/bugloos-dynamic-form-generator.git/', 
   test: {
       globals: true,
             environment: 'jsdom'
