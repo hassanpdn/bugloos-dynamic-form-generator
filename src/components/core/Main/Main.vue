@@ -1,12 +1,14 @@
 <template>
       <div class="main-content h-screen w-full p-16 flex flex-col justify-center items-center">
-            <h1 v-if="currentComponent !== 'Role'" class="font-bold text-2xl mb-2 text-left w-full">{{ currentComponent }} {{ formName }}</h1>
+            <h1 v-if="currentComponent !== 'Role'" class="font-bold text-2xl mb-2 text-left w-full">{{ action === 'Edit' ? action : currentComponent }} {{ formName }}</h1>
             <component :is="currentComponent"></component>
       </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue'
+import { defineComponent, defineAsyncComponent } from 'vue';
+import { userStore } from '@/store/User.store';
+import { mapState } from 'pinia';
 
 export default defineComponent({
       components: {
@@ -20,6 +22,9 @@ export default defineComponent({
                   formName: '',
                   isSidebarOpened: true
             }
+      },
+      computed: {
+            ...mapState(userStore, { action : 'action' })
       },
       methods: {
             setActiveMenu(currentComponent: string): void{

@@ -1,9 +1,11 @@
 <template>
       <div class="relative w-full">
-            <component :ref="details?.id" v-model="customValue" :is="details.selectedComponent" v-bind="{ details }"></component>
+            <component :ref="details?.id" v-model="details.value" :is="details.selectedComponent" v-bind="{ details }"></component>
             <div class="actions flex absolute top-0 right-0">
-                  <img @click="fieldAction('edit')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" src="@/assets/images/icons/svg/edit.svg" alt="edit">
+                  <img @click="fieldAction('edit')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer mr-2" src="@/assets/images/icons/svg/edit.svg" alt="edit">
                   <img @click="fieldAction('delete')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer mr-2" src="@/assets/images/icons/svg/delete.svg" alt="delete">
+                  <img v-if="!details.isFirstItem && !details.isUnique" @click="fieldAction('swap-up')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" src="@/assets/images/icons/svg/swap-up.svg" alt="swap-up">
+                  <img v-if="!details.isLastItem && !details.isUnique" @click="fieldAction('swap-down')" width="24" height="24" class="opacity-50 hover:opacity-100 cursor-pointer" src="@/assets/images/icons/svg/swap-down.svg" alt="swap-down">
             </div>
       </div>
 </template>
@@ -14,7 +16,7 @@ import { defineComponent, defineAsyncComponent, PropType } from 'vue';
 export default defineComponent({
       data(){
             return {
-                  customValue: ''
+                  customValue: this.details.value || ''
             }
       },
       props: {

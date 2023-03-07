@@ -19,9 +19,9 @@ export interface IValidations {
 export interface FormObject {
       title: string
       role: string
-      isEditable: boolean
-      isDeletable: boolean,
-      canAddNewField? : boolean,
+      editable: boolean
+      deletable: boolean,
+      extendible? : boolean,
       fields: {
             selectedComponent: string
             isRequired: boolean
@@ -34,4 +34,14 @@ export interface FormObject {
             value: any
       }[]
       id: string
+}
+export interface FormDetails {
+      selectedComponent: string;
+      isRequired: boolean;
+      options: string[];
+      label: string;
+      editable: boolean;
+      deletable: boolean;
+      id: string;
+      value: string;
 }

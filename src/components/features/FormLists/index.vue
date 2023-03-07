@@ -53,13 +53,13 @@
                                           id: item.id, // Adds the form id to the row
                                           actions: ['View'] // Add any desired actions here
                                     };
-                                    if (item.isEditable) { // If the form is editable, adds 'Edit' to the actions array
+                                    if (item.editable) { // If the form is editable, adds 'Edit' to the actions array
                                           obj.actions.push('Edit');
                                     }
-                                    if (item.isDeletable) { // If the form is deletable, adds 'Delete' to the actions array
+                                    if (item.deletable) { // If the form is deletable, adds 'Delete' to the actions array
                                           obj.actions.push('Delete');
                                     }
-                                    if (item.canAddNewField) { // If the for can have new fields, adds 'Delete' to the actions array
+                                    if (item.extendible) { // If the for can have new fields, adds 'Delete' to the actions array
                                           obj.actions.push('New');
                                     }
                                     return obj; // Returns the completed row object
@@ -73,10 +73,11 @@
                   // This method handles table row actions (in this case, editing and deleting)
                   handleAction(args: any){
                         const { item, action } = args;
+                        const store = userStore(); // Set action in store using 
+                        store.action = action;
                         if(action === 'Edit' || action === 'New') { // If the action is Edit, emits a 'setCurrentItem' event and stores the form id in localStorage
                               this.emitter.emit('setCurrentItem', 'Create');
                               localStorage.setItem('currentFormId', item.id);
-                              this.emitter.emit('setAction', action);
                         } else if(action === 'Delete') { // If the action is Delete, removes the form from localStorage and updates the table data
                               let forms = JSON.parse(localStorage.getItem('form')!);
                               forms = forms.filter((obj : any) => obj.id !== item.id);

@@ -31,8 +31,8 @@
             
             <div class="flex justify-between my-4">
                   <check-box class="mb-2" :details="{ label: 'Is required' }" v-model="fieldProperties.isRequired" />
-                  <check-box class="mb-2" :details="{ label: 'Is editable' }" v-model="fieldProperties.isEditable" />
-                  <check-box class="mb-2" :details="{ label: 'Is deletable' }" v-model="fieldProperties.isDeletable" />
+                  <check-box class="mb-2" :details="{ label: 'Is editable' }" v-model="fieldProperties.editable" />
+                  <check-box class="mb-2" :details="{ label: 'Is deletable' }" v-model="fieldProperties.deletable" />
             </div>
 
             <div class="actions flex justify-center">
@@ -55,7 +55,6 @@
       import Alert from '@/components/shared/BaseAlert/Alert.vue'
 
       import { validations } from '@/constants';
-      import { generateUniqueId as uuid } from '@/utils';
 
       export default defineComponent({
             name: 'form-builder-modal',
@@ -180,7 +179,7 @@
                         }
                         /* Check for any errors in the form */
                         if( this.hasError || !this.fieldProperties.selectedComponent) return
-                        this.emitter.emit('addFormFields', {field: {...this.fieldProperties, id: this.fieldProperties?.id || uuid()}, editingMode: this.editingMode});
+                        this.emitter.emit('addFormFields', {field: {...this.fieldProperties, id: this.fieldProperties?.id || crypto.randomUUID()}, editingMode: this.editingMode});
                         this.resetForm();
                   },
                   setAvailableFormDetails(details: object){
