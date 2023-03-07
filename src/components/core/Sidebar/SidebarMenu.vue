@@ -21,7 +21,7 @@
                               { title: 'Forms', isActive: false },
                               { title: 'Create', isActive: false }
                         ] as MenuItems[],
-                        currentItem: 'Create'
+                        currentItem: 'Forms'
                   }
             },
             methods: {

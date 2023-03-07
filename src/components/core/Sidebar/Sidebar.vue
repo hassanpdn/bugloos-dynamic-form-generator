@@ -4,7 +4,7 @@
             <Menu/>
             <img class="w-2/6 mb-5" src="https://bugloos.nl/wp-content/uploads/Bugloos-Logo.svg" alt="open">
       </div>
-      <button class="fixed left-0 top-0 z-50" @click="setSidebarState">
+      <button v-if="userRole" class="fixed left-0 top-0 z-50" @click="setSidebarState">
             <img width="40" height="40" v-if="isOpen" class="m-4" src="@/assets/images/icons/svg/open.svg" alt="open">
             <img width="40" height="40" v-else class="m-4" src="@/assets/images/icons/svg/close.svg" alt="close">
       </button>
@@ -12,7 +12,9 @@
 
 <script lang="ts">
       import { defineComponent } from 'vue';
-      import Menu from './SidebarMenu.vue'
+      import Menu from './SidebarMenu.vue';
+      import { mapState } from 'pinia';
+      import { userStore } from '@/store/User.store';
 
       export default defineComponent({
             name: 'sidebar',
@@ -28,13 +30,14 @@
                   },
                   setSidebarState(): void {
                         this.isOpen = !this.isOpen;
-                        this.emitter.emit('setSidebarState', this.isOpen)
+                        this.emitter.emit('setSidebarState', this.isOpen);
                   }
             },
             computed: {
                   computedClass() : string {
                         return this.isOpen ? 'opened-sidebar' : 'closed-sidebar';
-                  }
+                  },
+                  ...mapState(userStore, {userRole: 'user'})
             },
             mounted(){
                   this.emitter.on('closeMenu', this.closeMenu)
