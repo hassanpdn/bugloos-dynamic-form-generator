@@ -34,3 +34,14 @@ Open your web browser and navigate to http://localhost:3000.
    14. To edit a form, click on the "Edit" button next in actions.
    15. To delete a form, click on the "Delete" button next in actions.
    16. To add a new field to a form, click on the "New" button next in actions.
+
+## Features
+   - Create dynamic forms with custom fields
+   - Set access levels for each form and field
+   - Add various input types such as text, number, dropdown, etc.
+   - Edit or delete existing forms and fields
+   - Set user role to either admin or staff
+   - Add fields to forms using a field generator form
+
+## Contributing
+   - Feel free to contribute to this project by submitting bug reports, feature requests, or pull requests.
