@@ -13,8 +13,8 @@ This template should help get you started developing with Vue 3 and TypeScript i
 ## Installation
 
 Clone this repository to your local machine.
-Run ```shell $ npm install``` or ```shell yarn install``` to install dependencies.
-Run ```shell $ npm npm run dev``` or ```shell yarn dev``` to start the development server.
+Run ```npm install``` or ```yarn install``` to install dependencies.
+Run ```npm run dev``` or ```yarn dev``` to start the development server.
 Open your web browser and navigate to http://localhost:3000.
 
 ## Usage
