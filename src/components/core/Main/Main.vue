@@ -1,6 +1,9 @@
 <template>
       <div class="main-content h-screen w-full p-16 flex flex-col justify-center items-center">
-            <h1 v-if="currentComponent !== 'Role'" class="font-bold text-2xl mb-2 text-left w-full">{{ action === 'Edit' ? action : currentComponent }} {{ formName }}</h1>
+            <div v-if="currentComponent !== 'Role'" class="flex w-full justify-between items-center mb-2">
+                  <p class="font-bold text-2xl text-left w-full">{{ action === 'Edit' ? action : currentComponent }} {{ formName }}</p>
+                  <p @click="setActiveMenu(currentComponent === 'Forms' ? 'Create' : 'Forms')" class="flex justify-end font-bold bg-green-500 text-white px-3 py-1 rounded">{{currentComponent === 'Forms' ? 'Create' : 'Forms'}}</p>
+            </div>
             <component :is="currentComponent"></component>
       </div>
 </template>
